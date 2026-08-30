@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Logistics | Грузоперевозки для бизнеса</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Настройка Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                            950: '#172554',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts: Montserrat (Заголовки) + Inter (Текст) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@500;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            background-color: #f8fafc;
+            color: #0f172a;
+            overflow-x: hidden;
+        }
+
+        /* Lenis Smooth Scroll */
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        .lenis.lenis-scrolling iframe { pointer-events: none; }
+
+        /* Бегущая строка */
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-ticker {
+            display: flex;
+            width: max-content;
+            animation: ticker 30s linear infinite;
+        }
+
+        /* FAQ Анимация */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary ~ * { animation: slideDown 0.3s ease-in-out; }
+        @keyframes slideDown {
+            0% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Скрытие элементов для GSAP */
+        .gs-hidden { visibility: hidden; }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-600 selection:text-white">
+
+<!-- Header -->
+<header id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 bg-white border-b border-slate-200 h-20 flex items-center">
+    <div class="w-full max-w-7xl mx-auto px-6 flex justify-between items-center">
+
+        <!-- Логотип -->
+        <a href="#" class="flex items-center gap-2 text-2xl font-heading font-black text-brand-700 uppercase tracking-tight z-50">
+            <i data-lucide="truck" class="w-8 h-8"></i>
+            PrimeLogistics
+        </a>
+
+        <!-- Десктопное меню -->
+        <nav class="hidden lg:flex gap-8 font-medium text-slate-600 text-sm uppercase tracking-wide">
+            <a href="#services" class="hover:text-brand-700 transition-colors">Услуги</a>
+            <a href="#fleet" class="hover:text-brand-700 transition-colors">Автопарк</a>
+            <a href="#process" class="hover:text-brand-700 transition-colors">Как мы работаем</a>
+            <a href="#benefits" class="hover:text-brand-700 transition-colors">Преимущества</a>
+        </nav>
+
+        <!-- Контакты и CTA (Десктоп) -->
+        <div class="hidden lg:flex items-center gap-6 z-50">
+            <a href="tel:+48123456789" class="font-bold text-slate-900 text-lg hover:text-brand-700 transition-colors">+48 123 456 789</a>
+            <a href="#cta" class="bg-brand-700 text-white px-6 py-2.5 hover:bg-brand-800 font-heading font-bold uppercase text-sm tracking-wide transition-colors">Расчет тарифа</a>
+        </div>
+
+        <!-- Кнопка мобильного меню -->
+        <button id="mobile-menu-btn" class="lg:hidden p-2 text-slate-900 z-50">
+            <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
+        </button>
+    </div>
+</header>
+
+<!-- Мобильное меню -->
+<div id="mobile-menu" class="fixed inset-0 bg-white z-40 hidden flex-col justify-center items-center gap-8 pt-20 px-6 opacity-0">
+    <a href="#services" class="mobile-link text-3xl font-heading font-bold uppercase tracking-wide text-slate-900 hover:text-brand-700 transition-colors">Услуги</a>
+    <a href="#fleet" class="mobile-link text-3xl font-heading font-bold uppercase tracking-wide text-slate-900 hover:text-brand-700 transition-colors">Автопарк</a>
+    <a href="#process" class="mobile-link text-3xl font-heading font-bold uppercase tracking-wide text-slate-900 hover:text-brand-700 transition-colors">Процесс</a>
+    <a href="#benefits" class="mobile-link text-3xl font-heading font-bold uppercase tracking-wide text-slate-900 hover:text-brand-700 transition-colors">Преимущества</a>
+    <a href="tel:+48123456789" class="text-2xl font-bold text-brand-700 mt-4">+48 123 456 789</a>
+    <a href="#cta" class="mobile-link w-full text-center bg-brand-700 text-white py-4 font-heading font-bold uppercase tracking-wide">Рассчитать стоимость</a>
+</div>
+
+<!-- 1. Hero Section -->
+<section class="relative pt-32 pb-24 lg:pt-40 lg:pb-32 px-6 overflow-hidden bg-slate-900 text-white">
+    <!-- Декоративный фон -->
+    <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-brand-950/80 mix-blend-multiply"></div>
+        <!-- Паттерн -->
+        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 30px 30px;"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12 items-center relative z-10">
+        <div class="lg:col-span-7">
+            <div class="gs-hero-elem inline-flex items-center gap-2 px-4 py-1.5 bg-brand-600/20 border border-brand-500/30 text-brand-400 font-bold text-xs uppercase tracking-widest mb-6">
+                <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span> B2B Логистика
+            </div>
+
+            <h1 class="gs-hero-elem text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-heading font-black leading-[1.1] mb-6 uppercase text-balance">
+                Надежная доставка грузов <span class="text-brand-500">по всей Европе</span>
+            </h1>
+
+            <p class="gs-hero-elem text-lg md:text-xl text-slate-300 mb-10 max-w-2xl font-light leading-relaxed text-pretty">
+                Собственный автопарк стандарта Евро-6, страхование каждого груза на 500 000€ и подача машины под загрузку от 2 часов.
+            </p>
+
+            <div class="gs-hero-elem flex flex-col sm:flex-row gap-4">
+                <a href="#cta" class="bg-brand-600 text-white px-8 py-4 font-heading font-bold hover:bg-brand-500 uppercase tracking-wide text-center transition-colors shadow-[0_0_20px_rgba(37,99,235,0.3)]">
+                    Заказать машину
+                </a>
+                <a href="#services" class="border border-slate-600 text-white px-8 py-4 font-heading font-bold hover:bg-slate-800 hover:border-slate-500 uppercase tracking-wide text-center transition-colors">
+                    Подробнее
+                </a>
+            </div>
+        </div>
+
+        <div class="lg:col-span-5 hidden lg:block gs-hero-img">
+            <div class="relative">
+                <div class="absolute inset-0 bg-brand-600 translate-x-4 translate-y-4"></div>
+                <img src="https://images.unsplash.com/photo-1519003722824-194d4455a60c?w=800&q=80" alt="Truck" class="relative z-10 w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+                <!-- Плашка поверх фото -->
+                <div class="absolute -bottom-6 -left-6 bg-white text-slate-900 p-6 z-20 shadow-xl border-l-4 border-brand-600">
+                    <div class="text-3xl font-heading font-black">24/7</div>
+                    <div class="text-sm font-bold uppercase tracking-wider text-slate-500">Диспетчерская служба</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 2. Бегущая строка -->
+<div class="w-full overflow-hidden bg-brand-600 text-white py-4">
+    <div class="animate-ticker flex items-center">
+        <div class="flex items-center whitespace-nowrap px-4 gap-8 text-sm font-heading font-bold uppercase tracking-widest">
+            <span>FTL / LTL Доставка</span><i data-lucide="zap" class="w-4 h-4 text-brand-300"></i>
+            <span>Таможенное оформление</span><i data-lucide="zap" class="w-4 h-4 text-brand-300"></i>
+            <span>Складская логистика</span><i data-lucide="zap" class="w-4 h-4 text-brand-300"></i>
+            <span>Страхование грузов</span><i data-lucide="zap" class="w-4 h-4 text-brand-300"></i>
+            <span>Опасные грузы (ADR)</span><i data-lucide="zap" class="w-4 h-4 text-brand-300"></i>
+        </div>
+        <div class="flex items-center whitespace-nowrap px-4 gap-8 text-sm font-heading font-bold uppercase tracking-widest">
+            <span>FTL / LTL Доставка</span><i data-lucide="zap" class="w-4 h-4 text-brand-300"></i>
+            <span>Таможенное оформление</span><i data-lucide="zap" class="w-4 h-4 text-brand-300"></i>
+            <span>Складская логистика</span><i data-lucide="zap" class="w-4 h-4 text-brand-300"></i>
+            <span>Страхование грузов</span><i data-lucide="zap" class="w-4 h-4 text-brand-300"></i>
+            <span>Опасные грузы (ADR)</span><i data-lucide="zap" class="w-4 h-4 text-brand-300"></i>
+        </div>
+    </div>
+</div>
+
+<!-- 3. Статистика -->
+<section class="py-16 px-6 bg-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-slate-100 gs-fade-up">
+        <div class="text-center px-4">
+            <div class="text-4xl md:text-5xl font-heading font-black text-brand-700 mb-2">12</div>
+            <div class="text-xs font-bold uppercase tracking-widest text-slate-500">Лет на рынке</div>
+        </div>
+        <div class="text-center px-4">
+            <div class="text-4xl md:text-5xl font-heading font-black text-brand-700 mb-2">150+</div>
+            <div class="text-xs font-bold uppercase tracking-widest text-slate-500">Собственных авто</div>
+        </div>
+        <div class="text-center px-4">
+            <div class="text-4xl md:text-5xl font-heading font-black text-brand-700 mb-2">50k</div>
+            <div class="text-xs font-bold uppercase tracking-widest text-slate-500">Успешных рейсов</div>
+        </div>
+        <div class="text-center px-4">
+            <div class="text-4xl md:text-5xl font-heading font-black text-brand-700 mb-2">99%</div>
+            <div class="text-xs font-bold uppercase tracking-widest text-slate-500">Доставок в срок</div>
+        </div>
+    </div>
+</section>
+
+<!-- 4. Услуги -->
+<section id="services" class="py-24 px-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6 gs-fade-up">
+            <div>
+                <h2 class="text-4xl md:text-5xl font-heading font-black uppercase text-slate-900 mb-4">Наши услуги</h2>
+                <p class="text-slate-600 max-w-xl">Комплексные логистические решения для вашего бизнеса. От одной паллеты до негабаритных проектов.</p>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 gs-stagger-services">
+            <!-- Service 1 -->
+            <div class="bg-white p-8 border border-slate-200 hover:border-brand-500 transition-colors group cursor-default">
+                <div class="w-14 h-14 bg-slate-100 group-hover:bg-brand-600 group-hover:text-white transition-colors flex items-center justify-center mb-6 text-brand-600">
+                    <i data-lucide="package-search" class="w-7 h-7"></i>
+                </div>
+                <h3 class="text-xl font-heading font-bold uppercase mb-3 text-slate-900">FTL (Полные грузы)</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-6">Подача отдельного транспортного средства под ваш груз. Прямая доставка без перегрузок, минимальные сроки транзита.</p>
+                <ul class="space-y-2 text-sm text-slate-500 font-medium">
+                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-600"></i> Тенты 82-120 м³</li>
+                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-600"></i> Подача от 2 часов</li>
+                </ul>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="bg-white p-8 border border-slate-200 hover:border-brand-500 transition-colors group cursor-default">
+                <div class="w-14 h-14 bg-slate-100 group-hover:bg-brand-600 group-hover:text-white transition-colors flex items-center justify-center mb-6 text-brand-600">
+                    <i data-lucide="boxes" class="w-7 h-7"></i>
+                </div>
+                <h3 class="text-xl font-heading font-bold uppercase mb-3 text-slate-900">LTL (Сборные грузы)</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-6">Оптимизация затрат для небольших партий товаров. Вы платите только за то место, которое занимает ваш груз.</p>
+                <ul class="space-y-2 text-sm text-slate-500 font-medium">
+                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-600"></i> От 1 паллеты</li>
+                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-600"></i> Регулярные линии</li>
+                </ul>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="bg-white p-8 border border-slate-200 hover:border-brand-500 transition-colors group cursor-default">
+                <div class="w-14 h-14 bg-slate-100 group-hover:bg-brand-600 group-hover:text-white transition-colors flex items-center justify-center mb-6 text-brand-600">
+                    <i data-lucide="thermometer-snowflake" class="w-7 h-7"></i>
+                </div>
+                <h3 class="text-xl font-heading font-bold uppercase mb-3 text-slate-900">Рефрижераторы</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-6">Перевозка грузов, требующих соблюдения температурного режима от -25°C до +25°C. Продукты питания, медикаменты.</p>
+                <ul class="space-y-2 text-sm text-slate-500 font-medium">
+                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-600"></i> Термописцы в авто</li>
+                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-600"></i> Санитарные паспорта</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 5. Автопарк (Fleet) -->
+<section id="fleet" class="py-24 px-6 bg-slate-900 text-white">
+    <div class="max-w-7xl mx-auto gs-fade-up">
+        <h2 class="text-4xl md:text-5xl font-heading font-black uppercase mb-16 text-center">Собственный автопарк</h2>
+
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="relative">
+                <!-- Заглушка. Использовать картинку грузовика на прозрачном фоне -->
+                <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=800&q=80" alt="Fleet" class="w-full rounded border border-slate-700">
+                <div class="absolute -bottom-6 -right-6 bg-brand-600 p-6 shadow-xl hidden md:block">
+                    <div class="text-3xl font-heading font-black">EURO-6</div>
+                    <div class="text-sm font-bold uppercase">Эко-стандарт</div>
+                </div>
+            </div>
+
+            <div class="space-y-8">
+                <p class="text-slate-300 text-lg leading-relaxed">Наш автопарк состоит исключительно из современных тягачей не старше 3-х лет марки Volvo и Mercedes-Benz. Это минимизирует риск поломок в пути.</p>
+
+                <div class="border-t border-slate-700 pt-6">
+                    <div class="flex justify-between items-end mb-2">
+                        <h4 class="font-heading font-bold uppercase text-xl">Тент / Штора</h4>
+                        <span class="text-brand-400 font-bold">90 ед.</span>
+                    </div>
+                    <p class="text-sm text-slate-400">Грузоподъемность 24т, объем 90м³. Подходит для большинства паллетированных грузов.</p>
+                </div>
+
+                <div class="border-t border-slate-700 pt-6">
+                    <div class="flex justify-between items-end mb-2">
+                        <h4 class="font-heading font-bold uppercase text-xl">Рефрижератор</h4>
+                        <span class="text-brand-400 font-bold">45 ед.</span>
+                    </div>
+                    <p class="text-sm text-slate-400">С поддержанием температуры. Установка Carrier/Thermo King.</p>
+                </div>
+
+                <div class="border-t border-slate-700 pt-6">
+                    <div class="flex justify-between items-end mb-2">
+                        <h4 class="font-heading font-bold uppercase text-xl">Мега (Mega)</h4>
+                        <span class="text-brand-400 font-bold">15 ед.</span>
+                    </div>
+                    <p class="text-sm text-slate-400">Внутренняя высота 3 метра. Идеально для объемных и легковесных грузов (100м³).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 6. Процесс (Схема работы) -->
+<section id="process" class="py-24 px-6 bg-white">
+    <div class="max-w-7xl mx-auto">
+        <h2 class="text-4xl md:text-5xl font-heading font-black uppercase text-center mb-16 text-slate-900 gs-fade-up">Схема работы</h2>
+
+        <div class="grid md:grid-cols-4 gap-8 relative gs-stagger-process">
+            <!-- Декоративная линия -->
+            <div class="hidden md:block absolute top-10 left-[10%] right-[10%] h-0.5 bg-slate-200"></div>
+
+            <div class="relative text-center gs-process-item bg-white">
+                <div class="w-20 h-20 mx-auto bg-slate-100 border-4 border-white rounded-full flex items-center justify-center text-brand-600 mb-6 shadow-sm z-10 relative">
+                    <i data-lucide="file-text" class="w-8 h-8"></i>
+                </div>
+                <h4 class="font-heading font-bold uppercase mb-2 text-slate-900">1. Заявка</h4>
+                <p class="text-sm text-slate-600">Вы оставляете заявку с параметрами груза и маршрутом.</p>
+            </div>
+
+            <div class="relative text-center gs-process-item bg-white">
+                <div class="w-20 h-20 mx-auto bg-slate-100 border-4 border-white rounded-full flex items-center justify-center text-brand-600 mb-6 shadow-sm z-10 relative">
+                    <i data-lucide="calculator" class="w-8 h-8"></i>
+                </div>
+                <h4 class="font-heading font-bold uppercase mb-2 text-slate-900">2. Расчет</h4>
+                <p class="text-sm text-slate-600">В течение 15 минут логист предоставляет стоимость и сроки.</p>
+            </div>
+
+            <div class="relative text-center gs-process-item bg-white">
+                <div class="w-20 h-20 mx-auto bg-brand-600 border-4 border-white rounded-full flex items-center justify-center text-white mb-6 shadow-sm z-10 relative shadow-[0_0_15px_rgba(37,99,235,0.4)]">
+                    <i data-lucide="package-check" class="w-8 h-8"></i>
+                </div>
+                <h4 class="font-heading font-bold uppercase mb-2 text-slate-900">3. Погрузка</h4>
+                <p class="text-sm text-slate-600">Машина подается на склад отправителя точно в согласованное время.</p>
+            </div>
+
+            <div class="relative text-center gs-process-item bg-white">
+                <div class="w-20 h-20 mx-auto bg-slate-100 border-4 border-white rounded-full flex items-center justify-center text-brand-600 mb-6 shadow-sm z-10 relative">
+                    <i data-lucide="map-pinned" class="w-8 h-8"></i>
+                </div>
+                <h4 class="font-heading font-bold uppercase mb-2 text-slate-900">4. Доставка</h4>
+                <p class="text-sm text-slate-600">Груз прибывает к получателю. Предоставляем закрывающие документы.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 7. Преимущества (Features) -->
+<section id="benefits" class="py-24 px-6 bg-slate-50 border-t border-slate-200">
+    <div class="max-w-7xl mx-auto">
+        <h2 class="text-4xl md:text-5xl font-heading font-black uppercase text-center mb-16 text-slate-900 gs-fade-up">Наши гарантии</h2>
+
+        <div class="grid md:grid-cols-3 gap-8 gs-stagger-benefits">
+            <div class="bg-white p-10 border border-slate-200 border-t-4 border-t-brand-600 shadow-sm hover:shadow-md transition-shadow gs-benefit-item">
+                <i data-lucide="shield-check" class="w-12 h-12 text-brand-600 mb-6"></i>
+                <h3 class="text-xl font-heading font-bold mb-4 uppercase text-slate-900">CMR Страхование</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">Ответственность перевозчика застрахована в надежной европейской компании на сумму до 500 000€. Ваш груз в полной безопасности на всем пути следования.</p>
+            </div>
+            <div class="bg-white p-10 border border-slate-200 border-t-4 border-t-brand-600 shadow-sm hover:shadow-md transition-shadow gs-benefit-item">
+                <i data-lucide="clock-4" class="w-12 h-12 text-brand-600 mb-6"></i>
+                <h3 class="text-xl font-heading font-bold mb-4 uppercase text-slate-900">Жесткие сроки</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">Мы понимаем важность концепции Just-in-Time. Штрафные санкции за опоздание машины на выгрузку прописаны в договоре.</p>
+            </div>
+            <div class="bg-white p-10 border border-slate-200 border-t-4 border-t-brand-600 shadow-sm hover:shadow-md transition-shadow gs-benefit-item">
+                <i data-lucide="smartphone-nfc" class="w-12 h-12 text-brand-600 mb-6"></i>
+                <h3 class="text-xl font-heading font-bold mb-4 uppercase text-slate-900">GPS-Мониторинг</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">Все машины оборудованы современными системами телематики. Предоставляем клиенту гостевой доступ для отслеживания груза в режиме 24/7.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 8. FAQ -->
+<section class="py-24 px-6 bg-white">
+    <div class="max-w-4xl mx-auto gs-fade-up">
+        <h2 class="text-4xl md:text-5xl font-heading font-black uppercase text-center mb-16 text-slate-900">Частые вопросы</h2>
+
+        <div class="space-y-4">
+            <details class="group bg-slate-50 border border-slate-200 p-6 cursor-pointer">
+                <summary class="flex justify-between items-center font-heading font-bold uppercase text-slate-900 outline-none">
+                    С какими странами вы работаете?
+                    <span class="transition-transform duration-300 group-open:rotate-180 text-brand-600">
+                            <i data-lucide="chevron-down" class="w-5 h-5"></i>
+                        </span>
+                </summary>
+                <div class="text-slate-600 text-sm mt-4 leading-relaxed border-t border-slate-200 pt-4">
+                    Мы осуществляем регулярные перевозки по всей территории Европейского Союза, а также работаем с направлениями в Великобританию, Швейцарию, Норвегию и страны СНГ.
+                </div>
+            </details>
+
+            <details class="group bg-slate-50 border border-slate-200 p-6 cursor-pointer">
+                <summary class="flex justify-between items-center font-heading font-bold uppercase text-slate-900 outline-none">
+                    Берете ли вы опасные грузы (ADR)?
+                    <span class="transition-transform duration-300 group-open:rotate-180 text-brand-600">
+                            <i data-lucide="chevron-down" class="w-5 h-5"></i>
+                        </span>
+                </summary>
+                <div class="text-slate-600 text-sm mt-4 leading-relaxed border-t border-slate-200 pt-4">
+                    Да, 80% нашего автопарка имеет соответствующие допуски, а водители прошли обучение и имеют актуальные свидетельства ADR. Мы перевозим все классы опасности, кроме 1 и 7.
+                </div>
+            </details>
+
+            <details class="group bg-slate-50 border border-slate-200 p-6 cursor-pointer">
+                <summary class="flex justify-between items-center font-heading font-bold uppercase text-slate-900 outline-none">
+                    Как происходит оплата услуг?
+                    <span class="transition-transform duration-300 group-open:rotate-180 text-brand-600">
+                            <i data-lucide="chevron-down" class="w-5 h-5"></i>
+                        </span>
+                </summary>
+                <div class="text-slate-600 text-sm mt-4 leading-relaxed border-t border-slate-200 pt-4">
+                    Мы работаем с B2B сектором по безналичному расчету. Стандартная отсрочка платежа для постоянных клиентов составляет от 14 до 45 дней после предоставления оригиналов документов (CMR).
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
+
+<!-- 9. CTA (Калькулятор/Заявка) -->
+<section id="cta" class="py-24 px-6 bg-brand-700 relative overflow-hidden">
+    <div class="absolute inset-0 z-0 opacity-10" style="background-image: radial-gradient(#ffffff 2px, transparent 2px); background-size: 40px 40px;"></div>
+
+    <div class="max-w-5xl mx-auto bg-white p-8 md:p-12 relative z-10 shadow-2xl flex flex-col md:flex-row gap-12 items-center gs-fade-up">
+        <div class="flex-1">
+            <h2 class="text-3xl md:text-4xl font-heading font-black uppercase text-slate-900 mb-4">Узнать стоимость доставки</h2>
+            <p class="text-slate-600 mb-8 font-medium">Оставьте параметры груза, и мы свяжемся с вами в течение 15 минут с точным коммерческим предложением.</p>
+
+            <div class="flex items-center gap-4 text-sm font-bold uppercase text-brand-700">
+                <i data-lucide="phone-call" class="w-5 h-5"></i>
+                Или звоните: +48 123 456 789
+            </div>
+        </div>
+
+        <div class="flex-1 w-full">
+            <form class="space-y-4" onsubmit="event.preventDefault();">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" placeholder="Откуда (Город/Индекс)" class="bg-slate-50 border border-slate-200 px-4 py-3 text-sm focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 w-full font-medium text-slate-900">
+                    <input type="text" placeholder="Куда (Город/Индекс)" class="bg-slate-50 border border-slate-200 px-4 py-3 text-sm focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 w-full font-medium text-slate-900">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" placeholder="Вес (кг)" class="bg-slate-50 border border-slate-200 px-4 py-3 text-sm focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 w-full font-medium text-slate-900">
+                    <select class="bg-slate-50 border border-slate-200 px-4 py-3 text-sm focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 w-full font-medium text-slate-500">
+                        <option value="" disabled selected>Тип кузова</option>
+                        <option value="tent">Тент</option>
+                        <option value="refrigerator">Рефрижератор</option>
+                        <option value="mega">Мега</option>
+                    </select>
+                </div>
+                <input type="tel" placeholder="Ваш номер телефона" class="bg-slate-50 border border-slate-200 px-4 py-3 text-sm focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 w-full font-medium text-slate-900">
+
+                <button type="submit" class="w-full bg-slate-900 text-white px-8 py-4 font-heading font-bold uppercase tracking-wide hover:bg-brand-600 transition-colors mt-4">
+                    Получить расчет
+                </button>
+                <p class="text-xs text-center text-slate-400 mt-2">Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности.</p>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- 10. Footer -->
+<footer class="bg-slate-900 text-slate-400 py-16 px-6 border-t-[8px] border-brand-600">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 mb-12">
+        <!-- Блок 1 -->
+        <div class="col-span-1 md:col-span-1">
+            <div class="flex items-center gap-2 text-2xl font-heading font-black text-white uppercase tracking-tight mb-6">
+                <i data-lucide="truck" class="w-6 h-6 text-brand-500"></i> PrimeLog
+            </div>
+            <p class="text-sm leading-relaxed mb-6">Профессиональные транспортно-экспедиционные услуги для B2B сектора по всей Европе.</p>
+        </div>
+
+        <!-- Блок 2 -->
+        <div>
+            <h4 class="text-white font-heading font-bold uppercase tracking-widest text-sm mb-6">Услуги</h4>
+            <ul class="space-y-3 text-sm">
+                <li><a href="#" class="hover:text-brand-400 transition-colors">FTL Перевозки</a></li>
+                <li><a href="#" class="hover:text-brand-400 transition-colors">Сборные грузы (LTL)</a></li>
+                <li><a href="#" class="hover:text-brand-400 transition-colors">Температурные грузы</a></li>
+                <li><a href="#" class="hover:text-brand-400 transition-colors">Опасные грузы (ADR)</a></li>
+            </ul>
+        </div>
+
+        <!-- Блок 3 -->
+        <div>
+            <h4 class="text-white font-heading font-bold uppercase tracking-widest text-sm mb-6">О компании</h4>
+            <ul class="space-y-3 text-sm">
+                <li><a href="#fleet" class="hover:text-brand-400 transition-colors">Автопарк</a></li>
+                <li><a href="#benefits" class="hover:text-brand-400 transition-colors">Гарантии</a></li>
+                <li><a href="#" class="hover:text-brand-400 transition-colors">Реквизиты</a></li>
+                <li><a href="#" class="hover:text-brand-400 transition-colors">Контакты</a></li>
+            </ul>
+        </div>
+
+        <!-- Блок 4 -->
+        <div>
+            <h4 class="text-white font-heading font-bold uppercase tracking-widest text-sm mb-6">Связь</h4>
+            <ul class="space-y-4 text-sm">
+                <li class="flex items-center gap-3"><i data-lucide="phone" class="w-4 h-4 text-brand-500"></i> +48 123 456 789</li>
+                <li class="flex items-center gap-3"><i data-lucide="mail" class="w-4 h-4 text-brand-500"></i> dispatch@primelog.eu</li>
+                <li class="flex items-start gap-3"><i data-lucide="map-pin" class="w-4 h-4 text-brand-500 shrink-0"></i> ul. Transportowa 1, 00-001 Warszawa, Poland</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
+        <p>© 2026 Prime Logistics. Все права защищены.</p>
+        <div class="flex gap-4">
+            <a href="#" class="hover:text-white transition-colors">Политика конфиденциальности</a>
+            <a href="#" class="hover:text-white transition-colors">Договор оферты</a>
+        </div>
+    </div>
+</footer>
+
+<!-- Скрипты (GSAP, ScrollTrigger, Lenis) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+
+<script>
+    // Инициализация иконок
+    lucide.createIcons();
+
+    // 1. Lenis Smooth Scroll
+    const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        direction: 'vertical',
+        smooth: true,
+    });
+
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Интеграция GSAP ScrollTrigger с Lenis
+    gsap.registerPlugin(ScrollTrigger);
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
+    gsap.ticker.lagSmoothing(0, 0);
+
+    // 2. Мобильное меню
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    let isMenuOpen = false;
+
+    const menuTl = gsap.timeline({ paused: true, reversed: true });
+    menuTl.to(mobileMenu, { display: 'flex', duration: 0 })
+        .to(mobileMenu, { opacity: 1, duration: 0.3, ease: "power2.inOut" })
+        .fromTo('.mobile-link', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, stagger: 0.05, ease: "power3.out" }, "-=0.1");
+
+    function toggleMenu() {
+        isMenuOpen = !isMenuOpen;
+        if (isMenuOpen) {
+            lenis.stop();
+            menuIcon.setAttribute('data-lucide', 'x');
+            menuTl.play();
+        } else {
+            lenis.start();
+            menuIcon.setAttribute('data-lucide', 'menu');
+            menuTl.reverse();
+        }
+        lucide.createIcons();
+    }
+
+    mobileBtn.addEventListener('click', toggleMenu);
+    document.querySelectorAll('.mobile-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            if(isMenuOpen) toggleMenu();
+            const target = document.querySelector(link.getAttribute('href'));
+            if(target) setTimeout(() => lenis.scrollTo(target, {offset: -80}), 400); // offset учитывает fixed header
+        });
+    });
+
+    // Навигация десктопа
+    document.querySelectorAll('nav a, a[href^="#"]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            const targetId = link.getAttribute('href');
+            if(targetId.startsWith('#')) {
+                e.preventDefault();
+                const target = document.querySelector(targetId);
+                if(target) lenis.scrollTo(target, {offset: -80});
+            }
+        });
+    });
+
+    // 3. Тень для шапки при скролле
+    const header = document.getElementById('navbar');
+    ScrollTrigger.create({
+        start: 'top -20',
+        onUpdate: (self) => {
+            if(self.scroll() > 20) {
+                header.classList.add('shadow-md');
+            } else {
+                header.classList.remove('shadow-md');
+            }
+        }
+    });
+
+    // 4. GSAP Анимации
+
+    // Анимация первого экрана (Hero)
+    const tlHero = gsap.timeline();
+    tlHero.fromTo('.gs-hero-elem',
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power3.out", delay: 0.2 }
+    )
+        .fromTo('.gs-hero-img',
+            { x: 50, opacity: 0 },
+            { x: 0, opacity: 1, duration: 1, ease: "power3.out" },
+            "-=0.6"
+        );
+
+    // Появление обычных блоков снизу
+    gsap.utils.toArray('.gs-fade-up').forEach(elem => {
+        gsap.fromTo(elem,
+            { y: 40, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: elem, start: "top 85%" } }
+        );
+    });
+
+    // Каскадное появление карточек услуг
+    gsap.fromTo('#services .group',
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power3.out", scrollTrigger: { trigger: '.gs-stagger-services', start: "top 85%" } }
+    );
+
+    // Каскадное появление схемы работы
+    gsap.fromTo('.gs-process-item',
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, stagger: 0.2, ease: "power2.out", scrollTrigger: { trigger: '.gs-stagger-process', start: "top 85%" } }
+    );
+
+    // Каскадное появление преимуществ
+    gsap.fromTo('.gs-benefit-item',
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power3.out", scrollTrigger: { trigger: '.gs-stagger-benefits', start: "top 85%" } }
+    );
+
+</script>
+</body>
+</html>

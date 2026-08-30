@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURELIA | Эксклюзивная недвижимость</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Настройка шрифтов в Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Manrope', 'sans-serif'],
+                        serif: ['Cormorant Garamond', 'serif'],
+                    },
+                    colors: {
+                        gold: {
+                            DEFAULT: '#d4af37',
+                            light: '#e6c86a',
+                            dark: '#aa8c2c'
+                        },
+                        dark: '#030303',
+                        darker: '#010101',
+                        surface: '#0a0a0a'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Manrope:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Fancybox CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
+
+    <style>
+        body {
+            background-color: #030303;
+            color: #f5f5f5;
+            overflow-x: hidden;
+        }
+
+        /* Lenis Smooth Scroll */
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        .lenis.lenis-scrolling iframe { pointer-events: none; }
+
+        /* Кастомный скроллбар */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #030303; }
+        ::-webkit-scrollbar-thumb { background: #333; }
+        ::-webkit-scrollbar-thumb:hover { background: #d4af37; }
+
+        /* Инпуты для формы */
+        .input-luxury {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            color: white;
+            padding: 12px 0;
+            width: 100%;
+            transition: border-color 0.4s ease;
+            outline: none;
+            font-weight: 300;
+        }
+        .input-luxury:focus { border-bottom-color: #d4af37; }
+        .input-luxury::placeholder { color: rgba(255,255,255,0.3); }
+
+        /* Бегущая строка */
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-ticker {
+            display: flex;
+            width: max-content;
+            animation: ticker 40s linear infinite;
+        }
+
+        /* FAQ Анимация */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary ~ * { animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .gsap-reveal { visibility: hidden; }
+    </style>
+</head>
+<body class="antialiased selection:bg-gold selection:text-dark">
+
+<!-- Header -->
+<header id="navbar" class="fixed top-0 w-full z-50 transition-colors duration-500 py-5 px-6 md:px-12 flex justify-between items-center">
+    <div class="absolute inset-0 bg-dark/90 backdrop-blur-md border-b border-white/5 opacity-0 transition-opacity duration-500" id="header-bg"></div>
+
+    <a href="#" class="relative z-10 text-2xl md:text-3xl tracking-[0.2em] font-serif uppercase hover:text-gold transition-colors">Aurelia</a>
+
+    <nav class="hidden lg:flex items-center gap-10 relative z-10">
+        <a href="#philosophy" class="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-gold transition-colors font-light">Философия</a>
+        <a href="#collection" class="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-gold transition-colors font-light">Коллекция</a>
+        <a href="#locations" class="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-gold transition-colors font-light">Регионы</a>
+        <a href="#services" class="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-gold transition-colors font-light">Сервис</a>
+        <a href="#contact" class="text-xs uppercase tracking-[0.2em] text-gold border-b border-gold pb-1 hover:text-white hover:border-white transition-all font-light">Приватный запрос</a>
+    </nav>
+
+    <button id="mobile-menu-btn" class="lg:hidden relative z-10 text-xs tracking-widest uppercase hover:text-gold transition-colors flex items-center gap-2 group">
+        <span id="menu-text">Меню</span>
+        <i data-lucide="menu" id="menu-icon" class="w-4 h-4 transition-transform group-hover:scale-110"></i>
+    </button>
+</header>
+
+<!-- Мобильное меню -->
+<div id="mobile-menu" class="fixed inset-0 bg-darker z-40 hidden flex-col justify-center items-center gap-8 pt-24 px-6 opacity-0">
+    <a href="#philosophy" class="mobile-link text-2xl md:text-3xl font-serif uppercase tracking-[0.2em] hover:text-gold transition-colors opacity-0 translate-y-4">Философия</a>
+    <a href="#collection" class="mobile-link text-2xl md:text-3xl font-serif uppercase tracking-[0.2em] hover:text-gold transition-colors opacity-0 translate-y-4">Коллекция</a>
+    <a href="#locations" class="mobile-link text-2xl md:text-3xl font-serif uppercase tracking-[0.2em] hover:text-gold transition-colors opacity-0 translate-y-4">Регионы</a>
+    <a href="#services" class="mobile-link text-2xl md:text-3xl font-serif uppercase tracking-[0.2em] hover:text-gold transition-colors opacity-0 translate-y-4">Family Office</a>
+    <a href="#contact" class="mobile-link text-xl md:text-2xl font-serif uppercase tracking-[0.2em] text-gold border border-gold px-8 py-3 mt-4 opacity-0 translate-y-4">Связаться</a>
+</div>
+
+<!-- 1. Hero Section -->
+<section class="hero-section h-screen relative flex items-center justify-center text-center overflow-hidden px-6">
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-dark z-10"></div>
+    <div class="absolute inset-0 -z-10 w-full h-[120%] -top-[10%]">
+        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=2000&q=80" alt="Mansion" class="hero-img w-full h-full object-cover scale-105" />
+    </div>
+
+    <div class="max-w-4xl relative z-20 pt-16 hero-content">
+        <span class="text-xs md:text-sm uppercase tracking-[0.4em] text-gold mb-6 block font-medium opacity-0 translate-y-4 gs-reveal">The Pinnacle of Luxury</span>
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif leading-[1.1] mb-10 opacity-0 translate-y-8 gs-reveal text-balance">Искусство жить <br class="hidden md:block"/>в совершенстве.</h1>
+        <div class="opacity-0 translate-y-4 gs-reveal">
+            <a href="#collection" class="inline-flex items-center gap-3 border-b border-gold pb-2 hover:text-gold transition-colors uppercase tracking-[0.2em] text-xs md:text-sm font-light">
+                Войти в коллекцию <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 z-20">
+        <span class="text-[9px] uppercase tracking-[0.3em] font-light">Explore</span>
+        <div class="w-px h-12 bg-white/30 overflow-hidden relative">
+            <div class="w-full h-full bg-white absolute top-0 -translate-y-full animate-[slideDown_2s_ease-in-out_infinite]"></div>
+        </div>
+    </div>
+
+    <style>
+        @keyframes slideDown {
+            0% { transform: translateY(-100%); }
+            50% { transform: translateY(0); }
+            100% { transform: translateY(100%); }
+        }
+    </style>
+</section>
+
+<!-- 2. Бегущая строка -->
+<div class="w-full overflow-hidden bg-darker py-6 border-y border-white/5">
+    <div class="animate-ticker flex items-center">
+        <div class="flex items-center whitespace-nowrap px-4 gap-12 text-xs uppercase tracking-[0.3em] text-white/40 font-light">
+            <span>Off-Market Объекты</span><span class="w-1 h-1 rounded-full bg-gold"></span>
+            <span>Абсолютная конфиденциальность</span><span class="w-1 h-1 rounded-full bg-gold"></span>
+            <span>Family Office</span><span class="w-1 h-1 rounded-full bg-gold"></span>
+            <span>Архитектурный консалтинг</span><span class="w-1 h-1 rounded-full bg-gold"></span>
+            <span>Инвестиции в Trophy Assets</span><span class="w-1 h-1 rounded-full bg-gold"></span>
+        </div>
+        <!-- Дубликат для плавности -->
+        <div class="flex items-center whitespace-nowrap px-4 gap-12 text-xs uppercase tracking-[0.3em] text-white/40 font-light">
+            <span>Off-Market Объекты</span><span class="w-1 h-1 rounded-full bg-gold"></span>
+            <span>Абсолютная конфиденциальность</span><span class="w-1 h-1 rounded-full bg-gold"></span>
+            <span>Family Office</span><span class="w-1 h-1 rounded-full bg-gold"></span>
+            <span>Архитектурный консалтинг</span><span class="w-1 h-1 rounded-full bg-gold"></span>
+            <span>Инвестиции в Trophy Assets</span><span class="w-1 h-1 rounded-full bg-gold"></span>
+        </div>
+    </div>
+</div>
+
+<!-- 3. Философия -->
+<section id="philosophy" class="py-24 md:py-32 px-6 overflow-hidden">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-16 lg:gap-24 items-center">
+        <div class="flex-1 gs-fade-right">
+                <span class="text-xs uppercase tracking-[0.3em] text-gold mb-6 block font-medium flex items-center gap-4">
+                    <span class="w-8 h-px bg-gold"></span> О компании
+                </span>
+            <h2 class="text-4xl md:text-5xl lg:text-6xl mb-8 leading-[1.1] font-serif">Мы не продаем стены. Мы подбираем наследие.</h2>
+            <div class="space-y-6 text-white/60 font-light leading-relaxed text-sm md:text-base">
+                <p>Каждая резиденция в нашем портфолио — это трофейный актив (Trophy Asset), созданный для самых взыскательных клиентов. 80% наших объектов никогда не появляются на открытом рынке.</p>
+                <p>AURELIA выступает доверенным лицом семей со всего мира, гарантируя абсолютную анонимность сделок и предоставляя консьерж-сервис высочайшего уровня: от релокации бизнеса до управления личным флотом.</p>
+            </div>
+            <div class="mt-12">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Signature_of_John_Hancock.svg" class="h-12 opacity-50 invert" alt="Signature">
+                <p class="text-xs tracking-widest uppercase text-white/40 mt-4">Основатель, Aurelia Group</p>
+            </div>
+        </div>
+        <div class="flex-1 relative w-full h-[500px] md:h-[700px] gs-fade-left">
+            <img src="https://images.unsplash.com/photo-1613490908575-103399ab71bc?w=1000&q=80" alt="Interior" class="w-full h-full object-cover rounded-sm filter contrast-125 brightness-90" />
+            <div class="absolute -bottom-6 -left-6 md:-bottom-12 md:-left-12 w-48 h-48 md:w-64 md:h-64 bg-surface border border-white/5 flex items-center justify-center p-8 gs-scale-up z-10 shadow-2xl">
+                <p class="text-center font-serif italic text-base md:text-lg text-white/80 leading-relaxed">"Истинная роскошь не терпит суеты. Она требует безупречности."</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 4. Статистика -->
+<section class="py-24 px-6 bg-surface border-y border-white/5">
+    <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 text-center gs-stagger">
+        <div class="gs-stagger-item border-r border-white/5 last:border-0 md:last:border-r-0">
+            <div class="text-5xl md:text-7xl font-serif mb-4 text-gold font-light">15</div>
+            <div class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-white/50 font-light">Лет безупречной<br/>репутации</div>
+        </div>
+        <div class="gs-stagger-item border-r border-white/5 md:border-r-0 lg:border-r">
+            <div class="text-5xl md:text-7xl font-serif mb-4 text-gold font-light">€2B</div>
+            <div class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-white/50 font-light">Объем закрытых<br/>сделок</div>
+        </div>
+        <div class="gs-stagger-item border-r border-white/5 last:border-0">
+            <div class="text-5xl md:text-7xl font-serif mb-4 text-gold font-light">40+</div>
+            <div class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-white/50 font-light">Стран<br/>присутствия</div>
+        </div>
+        <div class="gs-stagger-item">
+            <div class="text-5xl md:text-7xl font-serif mb-4 text-gold font-light">100%</div>
+            <div class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-white/50 font-light">Абсолютная<br/>конфиденциальность</div>
+        </div>
+    </div>
+</section>
+
+<!-- 5. Кинематографичный тур (Video Preview) -->
+<section class="py-24 md:py-32 px-6">
+    <div class="max-w-7xl mx-auto gs-fade-up">
+        <div class="text-center mb-12">
+            <span class="text-xs uppercase tracking-[0.3em] text-gold mb-4 block font-medium">Cinematic Tour</span>
+            <h2 class="text-3xl md:text-5xl font-serif">Ощутите масштаб</h2>
+        </div>
+        <div class="relative w-full h-[400px] md:h-[700px] group cursor-pointer overflow-hidden rounded-sm">
+            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600&q=80" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-[1.5s] ease-out brightness-50 group-hover:brightness-75" alt="Video cover">
+
+            <!-- Кнопка Play -->
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-20 h-20 md:w-28 md:h-28 border border-white/30 rounded-full flex items-center justify-center backdrop-blur-md bg-white/5 group-hover:bg-gold/20 group-hover:border-gold transition-all duration-500">
+                    <i data-lucide="play" class="w-8 h-8 text-white ml-2"></i>
+                </div>
+            </div>
+
+            <div class="absolute bottom-8 left-8">
+                <h3 class="font-serif text-2xl md:text-4xl">Chalet Le Petit, Courchevel</h3>
+                <p class="text-xs uppercase tracking-widest text-gold mt-2">Смотреть фильм (3:45)</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 6. Коллекция (Галерея) -->
+<section id="collection" class="py-24 md:py-32 px-6 md:px-12 bg-surface">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-16 md:mb-24 gap-6 gs-fade-up">
+            <div>
+                    <span class="text-xs uppercase tracking-[0.3em] text-gold mb-4 block font-medium flex items-center gap-4">
+                        <span class="w-8 h-px bg-gold"></span> Портфолио
+                    </span>
+                <h2 class="text-4xl md:text-6xl font-serif">Избранная коллекция</h2>
+            </div>
+            <a href="#" class="text-xs uppercase tracking-[0.2em] border-b border-white/30 pb-1 hover:border-gold hover:text-gold transition-all font-light flex items-center gap-2">
+                Весь каталог <i data-lucide="arrow-right" class="w-3 h-3"></i>
+            </a>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-x-12 gap-y-16 md:gap-y-32">
+            <!-- Объект 1 -->
+            <div class="group cursor-pointer gs-project">
+                <div class="overflow-hidden mb-6 relative h-[450px] lg:h-[700px]">
+                    <a href="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1600&q=100" data-fancybox="gallery" data-caption="Вилла Лазурный Берег">
+                        <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-[2s] ease-out brightness-90 group-hover:brightness-100" alt="Вилла" />
+                    </a>
+                    <div class="absolute top-4 right-4 bg-dark/90 backdrop-blur-sm px-4 py-1.5 text-[9px] uppercase tracking-[0.2em] border border-white/10 text-gold">Off-Market</div>
+                </div>
+                <div class="flex flex-col md:flex-row justify-between md:items-start gap-2">
+                    <div>
+                        <h3 class="text-2xl lg:text-3xl mb-2 font-serif group-hover:text-gold transition-colors">Вилла La Corniche</h3>
+                        <p class="text-xs text-white/50 font-light">Канны, Франция • 1,200 м² • 6 Спален</p>
+                    </div>
+                    <p class="text-xs uppercase tracking-widest text-white/80 mt-2 md:mt-0">По запросу</p>
+                </div>
+            </div>
+
+            <!-- Объект 2 (С параллакс смещением на десктопе) -->
+            <div class="group cursor-pointer gs-project md:mt-32">
+                <div class="overflow-hidden mb-6 relative h-[450px] lg:h-[700px]">
+                    <a href="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1600&q=100" data-fancybox="gallery" data-caption="Панорамный Пентхаус">
+                        <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-[2s] ease-out brightness-90 group-hover:brightness-100" alt="Пентхаус" />
+                    </a>
+                </div>
+                <div class="flex flex-col md:flex-row justify-between md:items-start gap-2">
+                    <div>
+                        <h3 class="text-2xl lg:text-3xl mb-2 font-serif group-hover:text-gold transition-colors">Пентхаус The Crown</h3>
+                        <p class="text-xs text-white/50 font-light">Дубай, ОАЭ • 850 м² • Инфинити-бассейн</p>
+                    </div>
+                    <p class="text-xs uppercase tracking-widest text-white/80 mt-2 md:mt-0">€ 12,500,000</p>
+                </div>
+            </div>
+
+            <!-- Объект 3 -->
+            <div class="group cursor-pointer gs-project">
+                <div class="overflow-hidden mb-6 relative h-[450px] lg:h-[700px]">
+                    <a href="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=100" data-fancybox="gallery" data-caption="Историческое Поместье">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-[2s] ease-out brightness-90 group-hover:brightness-100" alt="Поместье" />
+                    </a>
+                </div>
+                <div class="flex flex-col md:flex-row justify-between md:items-start gap-2">
+                    <div>
+                        <h3 class="text-2xl lg:text-3xl mb-2 font-serif group-hover:text-gold transition-colors">Palazzo di Luce</h3>
+                        <p class="text-xs text-white/50 font-light">Тоскана, Италия • 15 Га • Виноградники</p>
+                    </div>
+                    <p class="text-xs uppercase tracking-widest text-white/80 mt-2 md:mt-0">€ 8,200,000</p>
+                </div>
+            </div>
+
+            <!-- Объект 4 (С параллакс смещением на десктопе) -->
+            <div class="group cursor-pointer gs-project md:mt-32">
+                <div class="overflow-hidden mb-6 relative h-[450px] lg:h-[700px]">
+                    <a href="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600&q=100" data-fancybox="gallery" data-caption="Шале в Куршевеле">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-[2s] ease-out brightness-90 group-hover:brightness-100" alt="Шале" />
+                    </a>
+                </div>
+                <div class="flex flex-col md:flex-row justify-between md:items-start gap-2">
+                    <div>
+                        <h3 class="text-2xl lg:text-3xl mb-2 font-serif group-hover:text-gold transition-colors">Chalet Blanc</h3>
+                        <p class="text-xs text-white/50 font-light">Куршевель 1850 • 900 м² • Ski-in / Ski-out</p>
+                    </div>
+                    <p class="text-xs uppercase tracking-widest text-white/80 mt-2 md:mt-0">€ 22,000,000</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 7. Глобальное присутствие (Locations) -->
+<section id="locations" class="py-24 px-6 overflow-hidden">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16 gs-fade-up">
+            <span class="text-xs uppercase tracking-[0.3em] text-gold mb-4 block font-medium">Global Reach</span>
+            <h2 class="text-4xl md:text-5xl font-serif">Ключевые рынки</h2>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 gs-stagger-regions">
+            <!-- Локация 1 -->
+            <div class="gs-region-item relative h-[300px] md:h-[450px] group overflow-hidden rounded-sm cursor-pointer">
+                <img src="https://images.unsplash.com/photo-1549144498-842416f2c0eb?w=600&q=80" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition duration-1000 brightness-50 group-hover:brightness-75" alt="Monaco">
+                <div class="absolute inset-0 p-6 flex flex-col justify-end">
+                    <h3 class="text-xl md:text-3xl font-serif text-white group-hover:text-gold transition-colors">Монако</h3>
+                    <p class="text-[10px] uppercase tracking-widest text-white/50 mt-2 opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0">12 объектов</p>
+                </div>
+            </div>
+            <!-- Локация 2 -->
+            <div class="gs-region-item relative h-[300px] md:h-[450px] group overflow-hidden rounded-sm cursor-pointer md:mt-12">
+                <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&q=80" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition duration-1000 brightness-50 group-hover:brightness-75" alt="Dubai">
+                <div class="absolute inset-0 p-6 flex flex-col justify-end">
+                    <h3 class="text-xl md:text-3xl font-serif text-white group-hover:text-gold transition-colors">Дубай</h3>
+                    <p class="text-[10px] uppercase tracking-widest text-white/50 mt-2 opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0">34 объекта</p>
+                </div>
+            </div>
+            <!-- Локация 3 -->
+            <div class="gs-region-item relative h-[300px] md:h-[450px] group overflow-hidden rounded-sm cursor-pointer">
+                <img src="https://images.unsplash.com/photo-1513635269975-59693e2d8ce2?w=600&q=80" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition duration-1000 brightness-50 group-hover:brightness-75" alt="London">
+                <div class="absolute inset-0 p-6 flex flex-col justify-end">
+                    <h3 class="text-xl md:text-3xl font-serif text-white group-hover:text-gold transition-colors">Лондон</h3>
+                    <p class="text-[10px] uppercase tracking-widest text-white/50 mt-2 opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0">18 объектов</p>
+                </div>
+            </div>
+            <!-- Локация 4 -->
+            <div class="gs-region-item relative h-[300px] md:h-[450px] group overflow-hidden rounded-sm cursor-pointer md:mt-12">
+                <img src="https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=600&q=80" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition duration-1000 brightness-50 group-hover:brightness-75" alt="Geneva">
+                <div class="absolute inset-0 p-6 flex flex-col justify-end">
+                    <h3 class="text-xl md:text-3xl font-serif text-white group-hover:text-gold transition-colors">Женева</h3>
+                    <p class="text-[10px] uppercase tracking-widest text-white/50 mt-2 opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0">8 объектов</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 8. Как мы работаем (The Process) -->
+<section class="py-24 md:py-32 px-6 bg-surface border-y border-white/5">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6 gs-fade-up">
+            <div>
+                <span class="text-xs uppercase tracking-[0.3em] text-gold mb-4 block font-medium">The Process</span>
+                <h2 class="text-4xl md:text-5xl font-serif">Искусство сделки</h2>
+            </div>
+            <p class="max-w-md text-sm font-light text-white/50 leading-relaxed">Наш подход основан на строгой методологии и глубоком понимании стиля жизни HNWIs (состоятельных частных лиц).</p>
+        </div>
+
+        <div class="grid md:grid-cols-4 gap-8 border-t border-white/10 pt-12 gs-stagger-process">
+            <div class="gs-process-item relative">
+                <span class="text-5xl font-serif text-white/5 absolute -top-10 -left-4 font-bold">01</span>
+                <h3 class="text-xl font-serif mb-4 text-gold relative z-10">Инициация</h3>
+                <p class="text-sm text-white/50 font-light leading-relaxed">Глубинное интервью для понимания не только финансовых целей, но и лайфстайл-задач семьи.</p>
+            </div>
+            <div class="gs-process-item relative">
+                <span class="text-5xl font-serif text-white/5 absolute -top-10 -left-4 font-bold">02</span>
+                <h3 class="text-xl font-serif mb-4 text-gold relative z-10">Скаутинг</h3>
+                <p class="text-sm text-white/50 font-light leading-relaxed">Поиск по закрытым базам. Мы проверяем до 50 объектов, чтобы показать вам 3 идеальных.</p>
+            </div>
+            <div class="gs-process-item relative">
+                <span class="text-5xl font-serif text-white/5 absolute -top-10 -left-4 font-bold">03</span>
+                <h3 class="text-xl font-serif mb-4 text-gold relative z-10">Структурирование</h3>
+                <p class="text-sm text-white/50 font-light leading-relaxed">Привлечение топовых юристов для оптимизации налогов и обеспечения анонимности покупки.</p>
+            </div>
+            <div class="gs-process-item relative">
+                <span class="text-5xl font-serif text-white/5 absolute -top-10 -left-4 font-bold">04</span>
+                <h3 class="text-xl font-serif mb-4 text-gold relative z-10">Управление</h3>
+                <p class="text-sm text-white/50 font-light leading-relaxed">Передача ключей — это начало. Мы берем на себя управление резиденцией и персоналом.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 9. Услуги (Services) -->
+<section id="services" class="py-24 md:py-32 px-6 overflow-hidden">
+    <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
+        <div class="flex-1 gs-fade-right">
+            <img src="https://images.unsplash.com/photo-1574362848149-11496d93a7c7?w=800&q=80" alt="Concierge" class="w-full h-[600px] object-cover rounded-sm filter grayscale hover:grayscale-0 transition-all duration-700">
+        </div>
+        <div class="flex-1 gs-fade-left">
+            <span class="text-xs uppercase tracking-[0.3em] text-gold mb-4 block font-medium">Family Office</span>
+            <h2 class="text-4xl md:text-5xl font-serif mb-10">Больше, чем брокеридж</h2>
+
+            <div class="space-y-10">
+                <div class="flex gap-6">
+                    <div class="text-gold mt-1"><i data-lucide="scale" class="w-6 h-6"></i></div>
+                    <div>
+                        <h3 class="text-xl font-serif mb-2">Юридический Консалтинг</h3>
+                        <p class="text-sm text-white/50 leading-relaxed font-light">Налоговое планирование, открытие счетов в Швейцарии, оформление ВНЖ за инвестиции.</p>
+                    </div>
+                </div>
+                <div class="flex gap-6">
+                    <div class="text-gold mt-1"><i data-lucide="gem" class="w-6 h-6"></i></div>
+                    <div>
+                        <h3 class="text-xl font-serif mb-2">Консьерж-сервис</h3>
+                        <p class="text-sm text-white/50 leading-relaxed font-light">Организация частных перелетов, подбор штата (батлеры, шеф-повара), охрана объекта.</p>
+                    </div>
+                </div>
+                <div class="flex gap-6">
+                    <div class="text-gold mt-1"><i data-lucide="pen-tool" class="w-6 h-6"></i></div>
+                    <div>
+                        <h3 class="text-xl font-serif mb-2">Архитектура & Дизайн</h3>
+                        <p class="text-sm text-white/50 leading-relaxed font-light">Сотрудничество с мировыми бюро. От реновации до строительства виллы с нуля.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 10. Пресса о нас (Press) -->
+<section class="py-24 px-6 bg-surface border-y border-white/5">
+    <div class="max-w-7xl mx-auto gs-fade-up">
+        <h2 class="text-center text-xs uppercase tracking-[0.3em] text-white/40 mb-16 font-light">Мировое признание</h2>
+        <div class="flex flex-col md:flex-row justify-center items-center gap-16 md:gap-24 opacity-60">
+            <!-- Заглушки логотипов прессы -->
+            <div class="text-2xl font-serif tracking-widest uppercase hover:text-gold transition-colors cursor-pointer">Forbes</div>
+            <div class="text-2xl font-serif tracking-widest uppercase hover:text-gold transition-colors cursor-pointer">Bloomberg</div>
+            <div class="text-2xl font-serif tracking-widest uppercase hover:text-gold transition-colors cursor-pointer">Financial Times</div>
+        </div>
+    </div>
+</section>
+
+<!-- 11. FAQ -->
+<section class="py-24 md:py-32 px-6 max-w-4xl mx-auto gs-fade-up">
+    <div class="text-center mb-16">
+        <span class="text-xs uppercase tracking-[0.3em] text-gold mb-4 block font-medium">FAQ</span>
+        <h2 class="text-4xl md:text-5xl font-serif">Частые вопросы</h2>
+    </div>
+
+    <div class="space-y-2">
+        <details class="group border-b border-white/10 p-6 cursor-pointer bg-white/5 hover:bg-white/10 transition-colors rounded-sm">
+            <summary class="flex justify-between items-center text-lg md:text-xl font-serif outline-none">
+                Вы работаете только с объектами на сайте?
+                <span class="transition-transform duration-300 group-open:rotate-45 text-gold">
+                        <i data-lucide="plus" class="w-5 h-5"></i>
+                    </span>
+            </summary>
+            <div class="text-white/50 text-sm mt-4 leading-relaxed font-light">
+                Нет. В открытом каталоге представлена лишь малая часть. Более 80% наших сделок проходят в закрытом формате (Off-Market). Мы ищем объекты индивидуально под ваш запрос.
+            </div>
+        </details>
+
+        <details class="group border-b border-white/10 p-6 cursor-pointer bg-white/5 hover:bg-white/10 transition-colors rounded-sm">
+            <summary class="flex justify-between items-center text-lg md:text-xl font-serif outline-none">
+                Возможна ли полностью дистанционная сделка?
+                <span class="transition-transform duration-300 group-open:rotate-45 text-gold">
+                        <i data-lucide="plus" class="w-5 h-5"></i>
+                    </span>
+            </summary>
+            <div class="text-white/50 text-sm mt-4 leading-relaxed font-light">
+                Абсолютно. Наши юристы имеют огромный опыт проведения сделок по доверенности с использованием защищенных эскроу-счетов. Виртуальные туры проводятся в реальном времени в 4K.
+            </div>
+        </details>
+    </div>
+</section>
+
+<!-- 12. Контакты -->
+<section id="contact" class="py-24 md:py-32 px-6 border-t border-white/5 bg-surface relative overflow-hidden">
+    <!-- Декоративный элемент -->
+    <div class="absolute -right-[20%] -top-[20%] w-[800px] h-[800px] border border-white/5 rounded-full pointer-events-none"></div>
+    <div class="absolute -right-[10%] -top-[10%] w-[600px] h-[600px] border border-white/5 rounded-full pointer-events-none"></div>
+
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-16 items-start relative z-10">
+        <div class="flex-1 gs-fade-right">
+            <span class="text-xs uppercase tracking-[0.3em] text-gold mb-6 block font-medium">Связаться</span>
+            <h2 class="text-5xl md:text-6xl lg:text-7xl font-serif mb-6 leading-tight">Начать<br/>разговор.</h2>
+            <p class="text-white/50 mb-12 font-light leading-relaxed text-sm md:text-base max-w-sm">Мы готовы обсудить ваши инвестиционные цели в удобное для вас время. Полная конфиденциальность гарантирована.</p>
+
+            <div class="space-y-6 text-sm font-light">
+                <a href="#" class="flex items-center gap-4 hover:text-gold transition-colors w-max">
+                    <i data-lucide="phone" class="w-4 h-4 text-gold"></i> +41 22 518 00 00
+                </a>
+                <a href="mailto:private@aurelia.com" class="flex items-center gap-4 hover:text-gold transition-colors w-max">
+                    <i data-lucide="mail" class="w-4 h-4 text-gold"></i> private@aurelia.com
+                </a>
+                <p class="flex items-center gap-4 text-white/50">
+                    <i data-lucide="map-pin" class="w-4 h-4 text-gold"></i> Rue du Rhône 14, Geneva
+                </p>
+            </div>
+        </div>
+
+        <div class="flex-1 w-full bg-dark p-8 md:p-14 border border-white/5 gs-fade-left">
+            <form onsubmit="event.preventDefault();" class="space-y-10">
+                <div>
+                    <input type="text" placeholder="Ваше Имя" class="input-luxury" required>
+                </div>
+                <div>
+                    <input type="tel" placeholder="Номер Телефона" class="input-luxury" required>
+                </div>
+                <div>
+                    <input type="email" placeholder="Email (Опционально)" class="input-luxury">
+                </div>
+                <div>
+                    <textarea placeholder="Краткое описание запроса" class="input-luxury resize-none h-20"></textarea>
+                </div>
+                <button type="submit" class="w-full border border-gold text-gold px-8 py-5 uppercase tracking-[0.2em] text-xs font-medium hover:bg-gold hover:text-dark transition-all duration-300">
+                    Отправить запрос
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- 13. Footer -->
+<footer class="pt-20 pb-8 border-t border-white/5 px-6 bg-darker">
+    <div class="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-start gap-12 border-b border-white/5 pb-16 mb-8">
+        <div class="max-w-sm">
+            <div class="text-2xl tracking-[0.2em] font-serif uppercase text-white mb-6">Aurelia</div>
+            <p class="text-white/40 text-xs leading-relaxed font-light">Международный бутик элитной недвижимости и Family Office. Мы работаем с самыми эксклюзивными активами по всему миру.</p>
+        </div>
+        <div class="flex gap-16">
+            <div>
+                <h4 class="text-[10px] uppercase tracking-widest text-gold mb-6 font-medium">Навигация</h4>
+                <ul class="space-y-4 text-xs text-white/50 font-light">
+                    <li><a href="#philosophy" class="hover:text-white transition">О компании</a></li>
+                    <li><a href="#collection" class="hover:text-white transition">Коллекция</a></li>
+                    <li><a href="#services" class="hover:text-white transition">Family Office</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-[10px] uppercase tracking-widest text-gold mb-6 font-medium">Юридическое</h4>
+                <ul class="space-y-4 text-xs text-white/50 font-light">
+                    <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+                    <li><a href="#" class="hover:text-white transition">Terms of Use</a></li>
+                    <li><a href="#" class="hover:text-white transition">AML Compliance</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-white/30 tracking-[0.2em] font-light uppercase">
+        <p>&copy; 2026 AURELIA REAL ESTATE GROUP.</p>
+        <div class="flex gap-6">
+            <a href="#" class="hover:text-white transition">Instagram</a>
+            <a href="#" class="hover:text-white transition">LinkedIn</a>
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts: GSAP, ScrollTrigger, Lenis, Fancybox -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+
+<script>
+    // Иконки
+    lucide.createIcons();
+
+    // 1. Lenis Smooth Scroll
+    const lenis = new Lenis({
+        duration: 1.5, // Сделали скролл еще более плавным
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        direction: 'vertical',
+        smooth: true,
+    });
+
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Интеграция GSAP + Lenis
+    gsap.registerPlugin(ScrollTrigger);
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
+    gsap.ticker.lagSmoothing(0, 0);
+
+    // 2. Fancybox
+    Fancybox.bind('[data-fancybox="gallery"]', {
+        Toolbar: { display: { left: ["infobar"], middle: [], right: ["close"] } },
+        Images: { zoom: false },
+        animated: true,
+        showClass: "f-fadeInUp",
+        hideClass: "f-fadeOutDown",
+    });
+
+    // 3. Header Background on Scroll
+    const headerBg = document.getElementById('header-bg');
+    ScrollTrigger.create({
+        start: 'top -50',
+        onUpdate: (self) => {
+            if(self.direction === 1 || self.scroll() > 50) {
+                headerBg.classList.remove('opacity-0');
+            } else {
+                headerBg.classList.add('opacity-0');
+            }
+        }
+    });
+
+    // 4. GSAP Анимации
+    const tlLoad = gsap.timeline();
+    tlLoad.to('.gs-reveal', { y: 0, opacity: 1, duration: 1.2, stagger: 0.2, ease: "power3.out", delay: 0.2 });
+
+    gsap.to('.hero-img', {
+        yPercent: 15,
+        ease: "none",
+        scrollTrigger: { trigger: ".hero-section", start: "top top", end: "bottom top", scrub: true }
+    });
+
+    gsap.utils.toArray('.gs-fade-right').forEach(elem => {
+        gsap.fromTo(elem, { x: -50, opacity: 0 }, { x: 0, opacity: 1, duration: 1.2, ease: "power3.out", scrollTrigger: { trigger: elem, start: "top 85%" } });
+    });
+
+    gsap.utils.toArray('.gs-fade-left').forEach(elem => {
+        gsap.fromTo(elem, { x: 50, opacity: 0 }, { x: 0, opacity: 1, duration: 1.2, ease: "power3.out", scrollTrigger: { trigger: elem, start: "top 85%" } });
+    });
+
+    gsap.utils.toArray('.gs-fade-up').forEach(elem => {
+        gsap.fromTo(elem, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, ease: "power3.out", scrollTrigger: { trigger: elem, start: "top 85%" } });
+    });
+
+    // Stagger для Статистики
+    gsap.fromTo('.gs-stagger-item',
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, stagger: 0.15, ease: "power2.out", scrollTrigger: { trigger: '.gs-stagger', start: "top 90%" } }
+    );
+
+    // Stagger для Регионов
+    gsap.fromTo('.gs-region-item',
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power3.out", scrollTrigger: { trigger: '.gs-stagger-regions', start: "top 85%" } }
+    );
+
+    // Stagger для Процесса
+    gsap.fromTo('.gs-process-item',
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power3.out", scrollTrigger: { trigger: '.gs-stagger-process', start: "top 85%" } }
+    );
+
+    // Анимация проектов
+    gsap.utils.toArray('.gs-project').forEach(project => {
+        gsap.fromTo(project, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, ease: "power3.out", scrollTrigger: { trigger: project, start: "top 85%" } });
+    });
+
+    // 5. Мобильное меню
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    const menuText = document.getElementById('menu-text');
+    let isMenuOpen = false;
+
+    const menuTl = gsap.timeline({ paused: true, reversed: true });
+    menuTl.to(mobileMenu, { display: 'flex', duration: 0 })
+        .to(mobileMenu, { opacity: 1, duration: 0.4, ease: "power2.inOut" })
+        .to('.mobile-link', { y: 0, opacity: 1, duration: 0.4, stagger: 0.1, ease: "power3.out" }, "-=0.2");
+
+    function toggleMenu() {
+        isMenuOpen = !isMenuOpen;
+        if (isMenuOpen) {
+            lenis.stop();
+            menuText.textContent = 'Закрыть';
+            menuIcon.setAttribute('data-lucide', 'x');
+            menuTl.play();
+        } else {
+            lenis.start();
+            menuText.textContent = 'Меню';
+            menuIcon.setAttribute('data-lucide', 'menu');
+            menuTl.reverse();
+        }
+        lucide.createIcons();
+    }
+
+    mobileBtn.addEventListener('click', toggleMenu);
+    document.querySelectorAll('.mobile-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            if(isMenuOpen) toggleMenu();
+            const target = document.querySelector(link.getAttribute('href'));
+            if(target) setTimeout(() => lenis.scrollTo(target), 500);
+        });
+    });
+
+    // Навигация десктопа
+    document.querySelectorAll('nav a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = document.querySelector(link.getAttribute('href'));
+            if(target) lenis.scrollTo(target);
+        });
+    });
+</script>
+</body>
+</html>

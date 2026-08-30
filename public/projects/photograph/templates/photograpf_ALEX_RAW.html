@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALEX.RAW | Фотограф & Креатор</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Настройка Tailwind -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Syne', 'sans-serif'],
+          },
+          colors: {
+            zinc: {
+              950: '#09090b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Syne (Креативный) + Inter (Базовый) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Fancybox CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
+
+  <style>
+    body {
+      background-color: #09090b;
+      color: #fafafa;
+      overflow-x: hidden;
+    }
+
+    /* Lenis Smooth Scroll */
+    html.lenis { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto; }
+    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+    .lenis.lenis-stopped { overflow: hidden; }
+    .lenis.lenis-scrolling iframe { pointer-events: none; }
+
+    /* Бегущая строка */
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: flex;
+      width: max-content;
+      animation: marquee 25s linear infinite;
+    }
+
+    /* FAQ Анимация */
+    details > summary { list-style: none; }
+    details > summary::-webkit-details-marker { display: none; }
+    details[open] summary ~ * { animation: slideDown 0.4s ease-in-out; }
+    @keyframes slideDown {
+      0% { opacity: 0; transform: translateY(-10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Скрытие элементов для GSAP */
+    .gs-hidden { visibility: hidden; }
+
+    /* Убираем скроллбар для эстетики */
+    ::-webkit-scrollbar { display: none; }
+  </style>
+</head>
+<body class="antialiased selection:bg-white selection:text-black">
+
+<!-- Header (Mix-blend-difference для инверсии цвета на светлом фоне) -->
+<header class="fixed w-full top-0 z-50 mix-blend-difference px-6 py-6 flex justify-between items-center transition-all duration-300">
+  <a href="#" class="text-2xl font-heading font-bold tracking-tighter uppercase relative z-50">
+    ALEX<span class="text-zinc-500">.RAW</span>
+  </a>
+
+  <!-- Десктопное меню -->
+  <nav class="hidden md:flex gap-10 text-sm font-medium tracking-wide uppercase relative z-50">
+    <a href="#about" class="hover:text-zinc-400 transition-colors">Обо мне</a>
+    <a href="#portfolio" class="hover:text-zinc-400 transition-colors">Портфолио</a>
+    <a href="#services" class="hover:text-zinc-400 transition-colors">Форматы</a>
+    <a href="#contact" class="hover:text-zinc-400 transition-colors">Контакты</a>
+  </nav>
+
+  <!-- Кнопка мобильного меню -->
+  <button id="mobile-menu-btn" class="md:hidden relative z-50 p-2 text-white group">
+    <i data-lucide="menu" id="menu-icon" class="w-6 h-6 transition-transform group-hover:scale-110"></i>
+  </button>
+</header>
+
+<!-- Мобильное меню -->
+<div id="mobile-menu" class="fixed inset-0 bg-zinc-950 z-40 hidden flex-col justify-center items-center gap-8 px-6 opacity-0">
+  <a href="#about" class="mobile-link text-4xl font-heading font-bold uppercase tracking-tighter hover:text-zinc-400 transition-colors opacity-0 translate-y-4">Обо мне</a>
+  <a href="#portfolio" class="mobile-link text-4xl font-heading font-bold uppercase tracking-tighter hover:text-zinc-400 transition-colors opacity-0 translate-y-4">Работы</a>
+  <a href="#services" class="mobile-link text-4xl font-heading font-bold uppercase tracking-tighter hover:text-zinc-400 transition-colors opacity-0 translate-y-4">Услуги</a>
+  <a href="#contact" class="mobile-link text-4xl font-heading font-bold uppercase tracking-tighter hover:text-zinc-400 transition-colors opacity-0 translate-y-4">Контакты</a>
+</div>
+
+<main>
+  <!-- 1. Hero Section -->
+  <section class="h-screen flex flex-col justify-end p-6 md:p-12 pb-24 relative">
+
+    <img src="https://images.unsplash.com/photo-1551316679-9c6ae9dec224?w=1600&q=80" alt="Cover" class="absolute inset-0 w-full h-full object-cover opacity-40 -z-10" />
+
+    <div class="max-w-4xl">
+
+      <h1 class="text-6xl md:text-8xl font-light tracking-tighter mb-4">Ловлю моменты.<br/>Создаю историю.</h1>
+
+      <p class="text-lg md:text-xl text-zinc-400 max-w-xl mb-8">Свадебная, портретная и fashion фотография. Работаю по всей Европе.</p>
+
+      <button class="bg-white text-black px-8 py-4 rounded-full font-medium hover:bg-zinc-200 transition">Обсудить съемку</button>
+
+    </div>
+
+  </section>
+
+  <!-- 2. Marquee (Бегущая строка) -->
+  <div class="w-full overflow-hidden bg-white text-black py-4 border-y border-zinc-800">
+    <div class="animate-marquee flex items-center">
+      <div class="flex items-center whitespace-nowrap px-4 gap-8 text-sm font-heading font-bold uppercase tracking-widest">
+        <span>Свадебная фотография</span><i data-lucide="star" class="w-4 h-4 fill-black"></i>
+        <span>Fashion & Editorial</span><i data-lucide="star" class="w-4 h-4 fill-black"></i>
+        <span>Создание видеоконтента</span><i data-lucide="star" class="w-4 h-4 fill-black"></i>
+        <span>Персональные фотосессии</span><i data-lucide="star" class="w-4 h-4 fill-black"></i>
+        <span>Love Story</span><i data-lucide="star" class="w-4 h-4 fill-black"></i>
+      </div>
+      <div class="flex items-center whitespace-nowrap px-4 gap-8 text-sm font-heading font-bold uppercase tracking-widest">
+        <span>Свадебная фотография</span><i data-lucide="star" class="w-4 h-4 fill-black"></i>
+        <span>Fashion & Editorial</span><i data-lucide="star" class="w-4 h-4 fill-black"></i>
+        <span>Создание видеоконтента</span><i data-lucide="star" class="w-4 h-4 fill-black"></i>
+        <span>Персональные фотосессии</span><i data-lucide="star" class="w-4 h-4 fill-black"></i>
+        <span>Love Story</span><i data-lucide="star" class="w-4 h-4 fill-black"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Обо мне (Philosophy) -->
+  <section id="about" class="py-24 md:py-40 px-6 max-w-7xl mx-auto">
+    <div class="grid lg:grid-cols-2 gap-16 md:gap-24 items-center">
+      <div class="gs-fade-right">
+        <h2 class="text-4xl md:text-6xl font-heading font-bold uppercase tracking-tighter mb-8 leading-tight">Взгляд через <br/> объектив</h2>
+        <div class="space-y-6 text-zinc-400 font-light text-lg leading-relaxed">
+          <p>Я верю, что лучшая фотография — это та, которая передает атмосферу и честные эмоции. Мой стиль формировался на стыке документальной съемки и журнального глянца.</p>
+          <p>Базируюсь в Гданьске, но всегда открыт к проектам по всей Европе. Будь то камерная свадьба в Тоскане, fashion-кампейн в Варшаве или персональная история в студии — я здесь, чтобы сохранить это красиво.</p>
+        </div>
+        <div class="mt-12 flex items-center gap-12">
+          <div>
+            <div class="text-4xl font-heading font-bold text-white mb-2">8+</div>
+            <div class="text-xs uppercase tracking-widest text-zinc-500">Лет опыта</div>
+          </div>
+          <div>
+            <div class="text-4xl font-heading font-bold text-white mb-2">250+</div>
+            <div class="text-xs uppercase tracking-widest text-zinc-500">Довольных клиентов</div>
+          </div>
+        </div>
+      </div>
+      <div class="relative gs-fade-left">
+        <img src="https://images.unsplash.com/photo-1604904612715-47bf9d9bc670?w=800&q=80" alt="Photographer" class="w-full h-[600px] object-cover grayscale hover:grayscale-0 transition duration-700 rounded-sm" />
+        <!-- Декоративный элемент -->
+        <div class="absolute -bottom-8 -left-8 bg-zinc-900 border border-zinc-800 p-6 hidden md:block">
+          <p class="font-heading font-bold uppercase tracking-widest text-sm mb-2">Alex Raw</p>
+          <p class="text-zinc-500 text-xs">Visual Creator</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Портфолио (Gallery) -->
+  <section id="portfolio" class="py-24 md:py-32 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8 gs-fade-up">
+        <h2 class="text-5xl md:text-7xl font-heading font-bold uppercase tracking-tighter">Избранное</h2>
+        <p class="max-w-xs text-sm text-zinc-400 font-light">Коллекция моментов, света и теней. Нажмите на фото, чтобы открыть галерею.</p>
+      </div>
+
+      <!-- Masonry-подобная сетка на CSS Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 gs-stagger">
+        <!-- Фото 1 -->
+        <a href="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1600&q=100" data-fancybox="portfolio" class="gs-gallery-item block overflow-hidden group rounded-sm h-[500px]">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" alt="Portrait" />
+        </a>
+        <!-- Фото 2 (Выше на десктопе) -->
+        <a href="https://images.unsplash.com/photo-1511895426328-dc8714191300?w=1600&q=100" data-fancybox="portfolio" class="gs-gallery-item block overflow-hidden group rounded-sm h-[500px] lg:h-[600px] lg:-mt-12">
+          <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&q=80" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" alt="Wedding" />
+        </a>
+        <!-- Фото 3 -->
+        <a href="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=1600&q=100" data-fancybox="portfolio" class="gs-gallery-item block overflow-hidden group rounded-sm h-[500px]">
+          <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=800&q=80" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" alt="Fashion" />
+        </a>
+        <!-- Фото 4 -->
+        <a href="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1600&q=100" data-fancybox="portfolio" class="gs-gallery-item block overflow-hidden group rounded-sm h-[500px] lg:col-span-2">
+          <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1200&q=80" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" alt="Editorial" />
+        </a>
+        <!-- Фото 5 -->
+        <a href="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1600&q=100" data-fancybox="portfolio" class="gs-gallery-item block overflow-hidden group rounded-sm h-[500px]">
+          <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" alt="Fashion" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Услуги и Цены -->
+  <section id="services" class="py-24 md:py-32 px-6 bg-zinc-900 border-y border-zinc-800">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-4xl md:text-6xl font-heading font-bold uppercase tracking-tighter mb-16 text-center gs-fade-up">Форматы работы</h2>
+
+      <div class="space-y-4 gs-stagger-services">
+        <!-- Тариф 1 -->
+        <div class="group flex flex-col md:flex-row justify-between items-start md:items-center p-8 bg-zinc-950 border border-zinc-800 hover:border-white transition-colors duration-300 rounded-sm">
+          <div class="mb-6 md:mb-0">
+            <h3 class="text-2xl font-heading font-bold uppercase mb-2">Персональная съемка</h3>
+            <p class="text-zinc-400 font-light text-sm max-w-md">2 часа работы, подбор локации/студии, помощь в позировании. От 30 фото в авторской ретуши.</p>
+          </div>
+          <div class="text-left md:text-right">
+            <div class="text-3xl font-light mb-1">€ 250</div>
+            <a href="#contact" class="text-xs uppercase tracking-widest text-zinc-500 hover:text-white transition-colors border-b border-zinc-700 hover:border-white pb-1">Забронировать</a>
+          </div>
+        </div>
+
+        <!-- Тариф 2 -->
+        <div class="group flex flex-col md:flex-row justify-between items-start md:items-center p-8 bg-white text-black border border-white transition-colors duration-300 rounded-sm">
+          <div class="mb-6 md:mb-0">
+            <div class="inline-block px-3 py-1 bg-black text-white text-[10px] uppercase tracking-widest mb-3">Хит</div>
+            <h3 class="text-2xl font-heading font-bold uppercase mb-2">Свадебный день</h3>
+            <p class="text-zinc-600 font-light text-sm max-w-md">До 10 часов съемки. Анонс из 50 фото через 3 дня. От 500 готовых кадров. Премиум фотокнига в подарок.</p>
+          </div>
+          <div class="text-left md:text-right">
+            <div class="text-3xl font-light mb-1">€ 1200</div>
+            <a href="#contact" class="text-xs uppercase tracking-widest text-zinc-500 hover:text-black transition-colors border-b border-zinc-300 hover:border-black pb-1">Узнать свободные даты</a>
+          </div>
+        </div>
+
+        <!-- Тариф 3 (Контент/Видео) -->
+        <div class="group flex flex-col md:flex-row justify-between items-start md:items-center p-8 bg-zinc-950 border border-zinc-800 hover:border-white transition-colors duration-300 rounded-sm">
+          <div class="mb-6 md:mb-0">
+            <h3 class="text-2xl font-heading font-bold uppercase mb-2">Контент & Reels</h3>
+            <p class="text-zinc-400 font-light text-sm max-w-md">Съемка атмосферных backstage-видео и монтаж Reels. Идеально для брендов и создания уютного ASMR/LifeStyle контента.</p>
+          </div>
+          <div class="text-left md:text-right">
+            <div class="text-3xl font-light mb-1">от € 300</div>
+            <a href="#contact" class="text-xs uppercase tracking-widest text-zinc-500 hover:text-white transition-colors border-b border-zinc-700 hover:border-white pb-1">Забронировать</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. FAQ -->
+  <section class="py-24 md:py-32 px-6">
+    <div class="max-w-3xl mx-auto gs-fade-up">
+      <h2 class="text-3xl md:text-5xl font-heading font-bold uppercase tracking-tighter mb-12 text-center">Частые вопросы</h2>
+
+      <div class="space-y-4">
+        <details class="group bg-zinc-900 border border-zinc-800 p-6 rounded-sm cursor-pointer">
+          <summary class="flex justify-between items-center font-heading font-bold uppercase tracking-wide outline-none">
+            Где вы находитесь и выезжаете ли в другие страны?
+            <span class="transition-transform duration-300 group-open:rotate-45 text-zinc-500">
+                <i data-lucide="plus" class="w-5 h-5"></i>
+              </span>
+          </summary>
+          <div class="text-zinc-400 text-sm mt-4 leading-relaxed font-light">
+            Моя база находится в Польше (Гданьск), но я обожаю путешествовать и снимать в новых местах. Часто выезжаю на съемки по всей Европе (Италия, Франция, Испания). Транспортные расходы обсуждаются индивидуально.
+          </div>
+        </details>
+
+        <details class="group bg-zinc-900 border border-zinc-800 p-6 rounded-sm cursor-pointer">
+          <summary class="flex justify-between items-center font-heading font-bold uppercase tracking-wide outline-none">
+            Как быстро мы получим готовые фотографии?
+            <span class="transition-transform duration-300 group-open:rotate-45 text-zinc-500">
+                <i data-lucide="plus" class="w-5 h-5"></i>
+              </span>
+          </summary>
+          <div class="text-zinc-400 text-sm mt-4 leading-relaxed font-light">
+            Для индивидуальных и контент-съемок — 7-10 дней. Для свадеб — вы получаете анонс из 50 кадров уже через 3 дня после торжества, а всю серию — в течение 1,5 месяцев.
+          </div>
+        </details>
+
+        <details class="group bg-zinc-900 border border-zinc-800 p-6 rounded-sm cursor-pointer">
+          <summary class="flex justify-between items-center font-heading font-bold uppercase tracking-wide outline-none">
+            Помогаете ли вы с позированием?
+            <span class="transition-transform duration-300 group-open:rotate-45 text-zinc-500">
+                <i data-lucide="plus" class="w-5 h-5"></i>
+              </span>
+          </summary>
+          <div class="text-zinc-400 text-sm mt-4 leading-relaxed font-light">
+            Конечно. Мой подход — это живая репортажная съемка с легким направлением. Вам не нужно быть профессиональными моделями. Я создам комфортную атмосферу, включу музыку и подскажу, что делать, чтобы вы выглядели естественно.
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. CTA / Контакты -->
+  <section id="contact" class="py-32 px-6 text-center border-t border-zinc-800 relative overflow-hidden bg-white text-black">
+    <div class="max-w-4xl mx-auto relative z-10 gs-fade-up">
+      <p class="text-xs uppercase tracking-widest font-bold mb-6">Открыт для букинга на 2026 год</p>
+      <h2 class="text-5xl md:text-7xl lg:text-8xl font-heading font-bold tracking-tighter mb-12 uppercase leading-none">
+        Давайте создадим <br/> красоту вместе
+      </h2>
+
+      <a href="mailto:hello@alexraw.com" class="inline-block text-3xl md:text-5xl font-heading font-bold border-b-4 border-black hover:text-zinc-500 hover:border-zinc-500 transition-colors pb-2 mb-16">
+        hello@alexraw.com
+      </a>
+
+      <div class="flex justify-center gap-8">
+        <a href="#" class="text-sm font-bold uppercase tracking-widest hover:text-zinc-500 transition-colors flex items-center gap-2">
+          <i data-lucide="instagram" class="w-5 h-5"></i> Instagram
+        </a>
+        <a href="#" class="text-sm font-bold uppercase tracking-widest hover:text-zinc-500 transition-colors flex items-center gap-2">
+          <i data-lucide="send" class="w-5 h-5"></i> Telegram
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="py-8 px-6 flex flex-col md:flex-row justify-between items-center text-zinc-600 text-xs uppercase tracking-widest font-medium border-t border-zinc-900 bg-zinc-950">
+  <p>© 2026 ALEX.RAW PORTFOLIO.</p>
+  <div class="flex gap-6 mt-4 md:mt-0">
+    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+  </div>
+</footer>
+
+<!-- Scripts: GSAP, ScrollTrigger, Lenis, Fancybox -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+
+<script>
+  // 1. Инициализация иконок
+  lucide.createIcons();
+
+  // 2. Lenis Smooth Scroll
+  const lenis = new Lenis({
+    duration: 1.5,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    direction: 'vertical',
+    smooth: true,
+  });
+
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+
+  // Интеграция GSAP + Lenis
+  gsap.registerPlugin(ScrollTrigger);
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
+  gsap.ticker.lagSmoothing(0, 0);
+
+  // 3. Fancybox для портфолио
+  Fancybox.bind('[data-fancybox="portfolio"]', {
+    Toolbar: { display: { left: ["infobar"], middle: [], right: ["close"] } },
+    Images: { zoom: false },
+    animated: true,
+    showClass: "f-fadeInUp",
+    hideClass: "f-fadeOutDown",
+  });
+
+  // 4. GSAP Анимации
+  // Параллакс фона в Hero
+  gsap.to('.hero-bg', {
+    yPercent: 20,
+    ease: "none",
+    scrollTrigger: {
+      trigger: "main",
+      start: "top top",
+      end: "bottom top",
+      scrub: true
+    }
+  });
+
+  // Появление элементов снизу
+  gsap.utils.toArray('.gs-fade-up').forEach(elem => {
+    gsap.fromTo(elem,
+            { y: 50, opacity: 0 },
+            { y: 0, opacity: 1, duration: 1, ease: "power3.out", scrollTrigger: { trigger: elem, start: "top 85%" } }
+    );
+  });
+
+  // Появление слева/справа (Секция Обо мне)
+  gsap.utils.toArray('.gs-fade-right').forEach(elem => {
+    gsap.fromTo(elem,
+            { x: -50, opacity: 0 },
+            { x: 0, opacity: 1, duration: 1, ease: "power3.out", scrollTrigger: { trigger: elem, start: "top 85%" } }
+    );
+  });
+  gsap.utils.toArray('.gs-fade-left').forEach(elem => {
+    gsap.fromTo(elem,
+            { x: 50, opacity: 0 },
+            { x: 0, opacity: 1, duration: 1, ease: "power3.out", scrollTrigger: { trigger: elem, start: "top 85%" } }
+    );
+  });
+
+  // Каскадное появление галереи
+  gsap.fromTo('.gs-gallery-item',
+          { y: 50, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1, stagger: 0.15, ease: "power3.out", scrollTrigger: { trigger: '.gs-stagger', start: "top 85%" } }
+  );
+
+  // Каскадное появление услуг
+  gsap.fromTo('#services .group',
+          { y: 40, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, stagger: 0.2, ease: "power3.out", scrollTrigger: { trigger: '.gs-stagger-services', start: "top 85%" } }
+  );
+
+  // 5. Мобильное меню на GSAP
+  const mobileBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  let isMenuOpen = false;
+
+  const menuTl = gsap.timeline({ paused: true, reversed: true });
+  menuTl.to(mobileMenu, { display: 'flex', duration: 0 })
+          .to(mobileMenu, { opacity: 1, duration: 0.3, ease: "power2.inOut" })
+          .to('.mobile-link', { y: 0, opacity: 1, duration: 0.3, stagger: 0.1, ease: "power3.out" }, "-=0.1");
+
+  function toggleMenu() {
+    isMenuOpen = !isMenuOpen;
+    if (isMenuOpen) {
+      lenis.stop(); // Блок скролла
+      menuIcon.setAttribute('data-lucide', 'x');
+      mobileBtn.classList.remove('text-black'); // Принудительно делаем белым, т.к. фон меню черный
+      mobileBtn.classList.add('text-white');
+      menuTl.play();
+    } else {
+      lenis.start();
+      menuIcon.setAttribute('data-lucide', 'menu');
+      menuTl.reverse();
+    }
+    lucide.createIcons();
+  }
+
+  mobileBtn.addEventListener('click', toggleMenu);
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      if(isMenuOpen) toggleMenu();
+      const target = document.querySelector(link.getAttribute('href'));
+      if(target) setTimeout(() => lenis.scrollTo(target), 400);
+    });
+  });
+
+  // Навигация десктопа
+  document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if(target) lenis.scrollTo(target);
+    });
+  });
+</script>
+</body>
+</html>

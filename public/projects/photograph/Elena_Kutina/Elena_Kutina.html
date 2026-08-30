@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elena Kutina | Photographer</title>
+
+    <!-- Шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+    <meta name="description" content="Профессиональный фотограф в Одессе. Коммерческие и творческие фотосессии, портретная съемка, живые эмоции и киношная картинка. Записывайтесь!">
+
+    <!-- Инструкция для поисковых ботов (разрешаем индексацию страницы и ссылок на ней) -->
+    <meta name="robots" content="index, follow">
+
+    <!-- Указываем главную версию страницы, чтобы избежать проблем с дублями (www/без www) -->
+    <link rel="canonical" href="https://elena-kutina.vercel.app">
+
+    <!-- Open Graph (для красивых превью при отправке ссылки в Telegram, Instagram, Facebook) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://elena-kutina.vercel.app">
+    <meta property="og:title" content="Фотограф Одесса | Елена Кутина">
+    <meta property="og:description" content="Профессиональный фотограф в Одессе. Коммерческие и творческие фотосессии.">
+    <meta property="og:image" content="https://elena-kutina.vercel.app/og-image.jpg">
+
+    <!-- Twitter Card (дополнение к Open Graph для некоторых соцсетей) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Фотограф Одесса | Елена Кутина">
+    <meta name="twitter:description" content="Профессиональный фотограф в Одессе. Коммерческие и творческие фотосессии.">
+    <meta name="twitter:image" content="https://elena-kutina.vercel.app/og-image.jpg">
+
+    <!-- Иконка сайта (Favicon) -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <!-- Fancybox CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        background: '#050505',
+                        surface: '#121212',
+                        accent: '#ffffff',
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 24px 24px;
+            color: #ffffff;
+            cursor: none;
+            overflow-x: hidden;
+        }
+
+        body.gallery-active { cursor: auto !important; }
+        body.gallery-active .custom-cursor { display: none !important; opacity: 0 !important; }
+
+        /* Кастомный курсор */
+        .cursor-dot, .cursor-outline {
+            position: fixed;
+            top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 6px; height: 6px;
+            background-color: white;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        .cursor-outline {
+            width: 40px; height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+            height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+            background-color 0.3s ease;
+        }
+
+        .cursor-hover .cursor-outline {
+            width: 70px; height: 70px;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(4px);
+            border-color: transparent;
+        }
+        .cursor-hover .cursor-dot { opacity: 0; }
+
+        @media (hover: none) and (pointer: coarse) {
+            .cursor-dot, .cursor-outline { display: none !important; }
+            body { cursor: auto; }
+        }
+
+        /* Полностью скрываем кастомный курсор на touch-устройствах */
+        body.is-touch .custom-cursor {
+            display: none !important;
+            opacity: 0 !important;
+        }
+
+        /* Lenis (Плавный скролл) */
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        .lenis.lenis-scrolling iframe { pointer-events: none; }
+
+        .opacity-0-init { opacity: 0; }
+    </style>
+</head>
+<body class="antialiased selection:bg-white selection:text-black">
+
+<div class="custom-cursor cursor-dot" id="cursor-dot"></div>
+<div class="custom-cursor cursor-outline" id="cursor-outline"></div>
+
+<!-- Навигация -->
+<header class="fixed top-4 md:top-8 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] md:w-auto z-50 transition-all">
+    <nav class="flex justify-between items-center bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl rounded-[2rem] px-6 py-4 md:px-8 lg:px-10 relative z-50">
+        <a href="#" class="text-xl font-black tracking-tighter hover-target uppercase text-white drop-shadow-md pr-6 md:pr-10 lg:pr-16 whitespace-nowrap shrink-0">EK LENS.</a>
+        <div class="space-x-5 lg:space-x-8 text-xs tracking-widest uppercase font-bold hidden md:flex text-white shrink-0">
+            <a href="#portfolio" class="nav-link hover:text-neutral-300 transition-colors hover-target drop-shadow-md whitespace-nowrap">Портфоліо</a>
+            <a href="#about" class="nav-link hover:text-neutral-300 transition-colors hover-target drop-shadow-md whitespace-nowrap">Про мене</a>
+            <a href="#contact" class="nav-link hover:text-neutral-300 transition-colors hover-target drop-shadow-md whitespace-nowrap">Контакти</a>
+        </div>
+        <!-- Кнопка Бургер-меню -->
+        <button id="mobile-menu-btn" class="md:hidden hover-target text-white drop-shadow-md focus:outline-none w-6 h-6 flex items-center justify-center shrink-0">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+    </nav>
+</header>
+
+<!-- Полноэкранное мобильное меню -->
+<div id="mobile-menu" class="fixed inset-0 bg-black/95 backdrop-blur-2xl z-40 flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="flex flex-col items-center gap-8">
+        <a href="#portfolio" class="mobile-nav-link text-3xl font-black uppercase tracking-widest text-white hover:text-neutral-400 transition-colors">Портфоліо</a>
+        <a href="#about" class="mobile-nav-link text-3xl font-black uppercase tracking-widest text-white hover:text-neutral-400 transition-colors">Про мене</a>
+        <a href="#contact" class="mobile-nav-link text-3xl font-black uppercase tracking-widest text-white hover:text-neutral-400 transition-colors">Контакти</a>
+    </div>
+</div>
+
+<main>
+    <!-- Секция Hero -->
+    <section class="relative w-full h-screen p-3 sm:p-4 md:p-6 lg:p-8 flex flex-col justify-center">
+        <div class="relative w-full h-full rounded-[2rem] overflow-hidden group">
+            <img src="https://images.unsplash.com/photo-1551334787-21e6bd3ab135?auto=format&fit=crop&q=80&w=2400"
+                 alt="Hero Photography"
+                 class="absolute inset-0 w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-[2s] ease-out">
+
+            <div class="absolute inset-0 bg-black/40 md:bg-black/30 transition-colors duration-700"></div>
+
+            <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4 sm:px-6 z-10 opacity-0-init animate-fade-in-up" style="animation-delay: 0.2s;">
+                <h1 class="text-4xl sm:text-5xl md:text-8xl lg:text-[9vw] leading-[0.9] md:leading-[0.85] font-black tracking-tighter uppercase text-white drop-shadow-2xl">
+                    ELENA KUTINA
+                </h1>
+                <p class="mt-4 md:mt-8 text-[10px] sm:text-xs md:text-sm lg:text-base text-neutral-200 tracking-[0.2em] md:tracking-[0.3em] uppercase font-bold max-w-xl drop-shadow-lg leading-relaxed">
+                    Професійна фотографія. Одеса.<br class="hidden sm:block">Мистецтво візуальної історії
+                </p>
+            </div>
+
+            <div class="absolute bottom-8 sm:bottom-10 left-0 w-full flex justify-center z-10 pointer-events-none">
+                <div class="opacity-0-init animate-fade-in-up pointer-events-auto" style="animation-delay: 0.8s;">
+                    <a href="#portfolio" class="nav-link hover-target text-white flex flex-col items-center gap-2 sm:gap-3 opacity-80 hover:opacity-100 transition-opacity drop-shadow-md">
+                        <span class="text-[10px] sm:text-xs tracking-widest uppercase font-bold">Дивитись</span>
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция Обо мне -->
+    <section id="about" class="px-3 sm:px-4 md:px-8 py-16 md:py-32 max-w-[120rem] mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 md:gap-6">
+
+            <div class="lg:col-span-7 rounded-[2rem] overflow-hidden h-[350px] sm:h-[400px] md:h-[600px] relative group bg-neutral-900">
+                <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=800"
+                     alt="Photographer"
+                     class="absolute inset-0 w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-[2s]">
+            </div>
+
+            <div class="lg:col-span-5 flex flex-col gap-3 sm:gap-4 md:gap-6">
+                <div class="rounded-[2rem] overflow-hidden h-[200px] md:h-[250px] relative group bg-neutral-900 hidden lg:block">
+                    <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=800"
+                         alt="Camera Lens"
+                         class="absolute inset-0 w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-[2s]">
+                </div>
+
+                <div class="bg-[#111111] rounded-[2rem] p-6 sm:p-8 md:p-12 flex-1 flex flex-col justify-center border border-white/5">
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase mb-4 md:mb-6 text-white">Про мене.</h2>
+                    <div class="space-y-3 sm:space-y-4 text-neutral-400 text-sm md:text-base font-light leading-relaxed">
+                        <p>
+                            Привіт, я Єлена – фотограф із Одеси. У своїх кадрах я люблю поєднувати кіношну картинку та живі емоції. Для мене важливо не просто провести фотосесію, а зловити атмосферу моменту та передати її через світло та тіні.                        </p>
+                        <p>
+                            Знімаю як комерційні, так і творчі проєкти і завжди відкрита до нових ідей.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Галерея -->
+    <section id="portfolio" class="px-3 sm:px-4 md:px-8 py-10 md:py-20 max-w-[120rem] mx-auto">
+
+        <div class="flex justify-between items-end mb-8 md:mb-12 px-2 border-b border-white/10 pb-4 md:pb-8">
+            <h2 class="text-3xl sm:text-4xl md:text-6xl font-black tracking-tighter uppercase">Вибране</h2>
+            <p class="text-neutral-500 hidden md:block uppercase tracking-widest text-sm font-bold">2025 — 2026</p>
+        </div>
+
+        <div class="flex flex-col gap-3 sm:gap-4 md:gap-6">
+            <!-- Ряд 1 -->
+            <div class="flex flex-col md:flex-row h-auto md:h-[500px] gap-3 sm:gap-4 md:gap-6">
+                <a href="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=2000" data-fancybox="works" class="w-full md:w-2/3 h-[250px] sm:h-[300px] md:h-full block rounded-[2rem] overflow-hidden relative group bg-neutral-900">
+                    <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                </a>
+                <a href="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&q=80&w=2000" data-fancybox="works" class="w-full md:w-1/3 h-[250px] sm:h-[300px] md:h-full block rounded-[2rem] overflow-hidden relative group bg-neutral-900">
+                    <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                </a>
+            </div>
+
+            <!-- Ряд 2 -->
+            <div class="flex flex-col md:flex-row h-auto md:h-[550px] gap-3 sm:gap-4 md:gap-6">
+                <a href="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=2000" data-fancybox="works" class="w-full md:w-1/3 h-[250px] sm:h-[350px] md:h-full block rounded-[2rem] overflow-hidden relative group bg-neutral-900">
+                    <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                </a>
+                <a href="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80&w=2000" data-fancybox="works" class="w-full md:w-1/3 h-[250px] sm:h-[350px] md:h-full block rounded-[2rem] overflow-hidden relative group bg-neutral-900">
+                    <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                </a>
+                <a href="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=2000" data-fancybox="works" class="w-full md:w-1/3 h-[250px] sm:h-[350px] md:h-full block rounded-[2rem] overflow-hidden relative group bg-neutral-900">
+                    <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                </a>
+            </div>
+
+            <!-- Ряд 3 -->
+            <div class="grid grid-cols-2 md:grid-cols-4 h-auto md:h-[400px] gap-3 sm:gap-4 md:gap-6">
+                <a href="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=2000" data-fancybox="works" class="w-full h-[150px] sm:h-[200px] md:h-full block rounded-[2rem] overflow-hidden relative group bg-neutral-900">
+                    <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                </a>
+                <a href="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=2000" data-fancybox="works" class="w-full h-[150px] sm:h-[200px] md:h-full block rounded-[2rem] overflow-hidden relative group bg-neutral-900">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                </a>
+                <a href="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=2000" data-fancybox="works" class="w-full h-[150px] sm:h-[200px] md:h-full block rounded-[2rem] overflow-hidden relative group bg-neutral-900">
+                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                </a>
+                <a href="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=2000" data-fancybox="works" class="w-full h-[150px] sm:h-[200px] md:h-full block rounded-[2rem] overflow-hidden relative group bg-neutral-900">
+                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                </a>
+            </div>
+
+            <!-- Ряд 4 -->
+            <div class="flex flex-col md:flex-row h-auto md:h-[500px] gap-3 sm:gap-4 md:gap-6">
+                <a href="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&q=80&w=2000" data-fancybox="works" class="w-full md:w-1/3 h-[250px] sm:h-[300px] md:h-full block rounded-[2rem] overflow-hidden relative group bg-neutral-900">
+                    <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                </a>
+                <a href="https://images.unsplash.com/photo-1481824429379-07aa5e5b0739?auto=format&fit=crop&q=80&w=2000" data-fancybox="works" class="w-full md:w-2/3 h-[250px] sm:h-[300px] md:h-full block rounded-[2rem] overflow-hidden relative group bg-neutral-900">
+                    <img src="https://images.unsplash.com/photo-1481824429379-07aa5e5b0739?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Футер / Контакты -->
+    <footer id="contact" class="px-4 sm:px-6 md:px-12 py-16 md:py-24 bg-transparent border-t border-white/5 flex flex-col items-center text-center">
+        <h2 class="text-3xl sm:text-4xl md:text-7xl font-black tracking-tighter mb-6 md:mb-8 uppercase">Зв'язок зі мною.</h2>
+
+        <a href="mailto:elena.kutina.photo@gmail.com" class="text-lg sm:text-xl md:text-3xl text-neutral-400 hover:text-white transition-colors hover-target mb-2 md:mb-4 font-light break-all px-4">
+            elena.kutina.photo@gmail.com
+        </a>
+
+        <a href="tel:+380671210957" class="text-base sm:text-lg md:text-xl text-neutral-400 hover:text-white transition-colors hover-target mb-10 md:mb-16 font-light tracking-widest">
+            +380 67 121 0957
+        </a>
+
+        <div class="flex flex-wrap justify-center gap-x-6 gap-y-4 md:gap-x-8 text-[10px] sm:text-xs tracking-widest uppercase font-semibold px-4 w-full">
+            <a href="https://www.instagram.com/elena_kutina" class="hover:text-neutral-400 transition-colors hover-target">Instagram</a>
+            <a href="#" class="hover:text-neutral-400 transition-colors hover-target">Behance</a>
+            <a href="https://t.me/elenakutina" class="hover:text-neutral-400 transition-colors hover-target">Telegram</a>
+            <a href="https://about-me-pi-five.vercel.app/index.html" class="text-neutral-500 hover:text-white transition-colors hover-target">Developer</a>
+        </div>
+    </footer>
+</main>
+
+<!-- Скрипты -->
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+
+<script>
+    // Инициализация плавного скролла Lenis
+    const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smooth: true,
+    });
+
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Логика Бургер-меню
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    let isMenuOpen = false;
+
+    function toggleMenu() {
+        isMenuOpen = !isMenuOpen;
+        if (isMenuOpen) {
+            mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+            mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+            // Меняем иконку на крестик
+            mobileMenuBtn.innerHTML = '<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>';
+            lenis.stop(); // Блокируем скролл
+        } else {
+            mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+            mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+            // Возвращаем иконку бургера
+            mobileMenuBtn.innerHTML = '<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path></svg>';
+            lenis.start(); // Разблокируем скролл
+        }
+    }
+
+    mobileMenuBtn.addEventListener('click', toggleMenu);
+
+    // Плавный скролл по якорным ссылкам в меню (ПК и Мобильные)
+    document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+
+            if (this.classList.contains('mobile-nav-link')) {
+                toggleMenu();
+                setTimeout(() => {
+                    lenis.scrollTo(targetId, { offset: -100, duration: 1.5 });
+                }, 300); // Ждем пока закроется меню
+            } else {
+                lenis.scrollTo(targetId, { offset: -120, duration: 1.5 });
+            }
+        });
+    });
+
+    // Инициализация галереи Fancybox
+    Fancybox.bind('[data-fancybox="works"]', {
+        Images: { zoom: true },
+        Toolbar: {
+            display: {
+                left: ["infobar"],
+                middle: ["zoomIn", "zoomOut"],
+                right: ["slideshow", "close"],
+            },
+        },
+        on: {
+            reveal: () => document.body.classList.add('gallery-active'),
+            destroy: () => document.body.classList.remove('gallery-active'),
+        },
+    });
+
+    // Логика кастомного курсора
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorOutline = document.getElementById('cursor-outline');
+    let cursorX = window.innerWidth / 2;
+    let cursorY = window.innerHeight / 2;
+    let outlineX = cursorX;
+    let outlineY = cursorY;
+
+    window.addEventListener('mousemove', (e) => {
+        cursorX = e.clientX;
+        cursorY = e.clientY;
+        cursorDot.style.left = `${cursorX}px`;
+        cursorDot.style.top = `${cursorY}px`;
+    });
+
+    function animateCursor() {
+        outlineX += (cursorX - outlineX) * 0.2;
+        outlineY += (cursorY - outlineY) * 0.2;
+        cursorOutline.style.left = `${outlineX}px`;
+        cursorOutline.style.top = `${outlineY}px`;
+        requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Определяем touch-устройство при первом касании и отключаем кастомный курсор
+    window.addEventListener('touchstart', function onFirstTouch() {
+        document.body.classList.add('is-touch');
+
+        // Скрываем элементы курсора
+        const dot = document.getElementById('cursor-dot');
+        const outline = document.getElementById('cursor-outline');
+        if (dot) dot.style.display = 'none';
+        if (outline) outline.style.display = 'none';
+
+        // Удаляем слушатель, чтобы не нагружать память
+        window.removeEventListener('touchstart', onFirstTouch);
+    }, { once: true });
+
+    // Анимация при наведении
+    const hoverTargets = document.querySelectorAll('.hover-target, a, button, [data-fancybox="works"]');
+    hoverTargets.forEach(target => {
+        target.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+        target.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    });
+
+    // Плавное появление элементов
+    window.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.opacity-0-init').forEach(el => {
+            el.style.opacity = '1';
+        });
+    });
+</script>
+</body>
+</html>

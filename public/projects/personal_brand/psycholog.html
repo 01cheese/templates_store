@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анна Коваль - Психолог, КПТ-терапевт</title>
+    <meta name="description" content="Бережное психологическое консультирование для взрослых. Онлайн и очно.">
+    <!-- Подключение Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Подключение иконок Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Шрифты: Lora для заголовков (надежность, классика), Nunito для текста (мягкость, эмпатия) */
+        @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Nunito:wght@300;400;500;600&display=swap');
+
+        body { font-family: 'Nunito', sans-serif; }
+        h1, h2, h3, h4, .serif { font-family: 'Lora', serif; }
+
+        /* Анимация бегущей строки */
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-ticker {
+            display: flex;
+            width: max-content;
+            animation: ticker 40s linear infinite;
+        }
+        .animate-ticker:hover {
+            animation-play-state: paused;
+        }
+
+        /* Плавное открытие спойлеров FAQ */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary ~ * { animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Кастомный скроллбар (опционально, для эстетики) */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #FAF9F6; }
+        ::-webkit-scrollbar-thumb { background: #c5cbc6; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4A5D4E; }
+    </style>
+</head>
+<body class="bg-[#FAF9F6] text-[#2C3E2D] antialiased overflow-x-hidden relative">
+
+<!-- Навигация (Sticky) -->
+<header class="sticky top-0 z-50 bg-[#FAF9F6]/90 backdrop-blur-md border-b border-[#2C3E2D]/10 h-[72px] flex items-center transition-all duration-300" id="navbar">
+    <div class="w-full px-6 max-w-7xl mx-auto flex justify-between items-center">
+        <a href="#" class="text-xl font-semibold serif tracking-wide">Анна Коваль</a>
+
+        <!-- Десктопное меню -->
+        <nav class="hidden lg:flex gap-8 items-center">
+            <a href="#about" class="text-sm font-medium text-[#4A5D4E] hover:text-[#2C3E2D] transition">Обо мне</a>
+            <a href="#problems" class="text-sm font-medium text-[#4A5D4E] hover:text-[#2C3E2D] transition">Запросы</a>
+            <a href="#methods" class="text-sm font-medium text-[#4A5D4E] hover:text-[#2C3E2D] transition">Методы</a>
+            <a href="#process" class="text-sm font-medium text-[#4A5D4E] hover:text-[#2C3E2D] transition">Процесс</a>
+            <a href="#pricing" class="text-sm font-medium text-[#4A5D4E] hover:text-[#2C3E2D] transition">Цены</a>
+            <a href="#faq" class="text-sm font-medium text-[#4A5D4E] hover:text-[#2C3E2D] transition">FAQ</a>
+        </nav>
+
+        <a href="#contact" class="hidden lg:inline-flex items-center justify-center px-6 py-2 border border-[#2C3E2D] rounded-full text-sm font-medium hover:bg-[#2C3E2D] hover:text-white transition-colors">
+            Записаться
+        </a>
+
+        <!-- Бургер-меню для мобилок -->
+        <button id="mobile-menu-btn" class="lg:hidden p-2 text-[#2C3E2D]" aria-label="Открыть меню">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+    </div>
+
+    <!-- Мобильное меню -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-[#FAF9F6] border-t border-[#2C3E2D]/10 px-6 py-6 flex-col gap-6 shadow-2xl absolute top-[72px] w-full left-0 z-50">
+        <a href="#about" class="block text-xl text-[#2C3E2D] font-medium serif">Обо мне</a>
+        <a href="#problems" class="block text-xl text-[#2C3E2D] font-medium serif">С чем работаю</a>
+        <a href="#methods" class="block text-xl text-[#2C3E2D] font-medium serif">Методы терапии</a>
+        <a href="#process" class="block text-xl text-[#2C3E2D] font-medium serif">Как проходит работа</a>
+        <a href="#pricing" class="block text-xl text-[#2C3E2D] font-medium serif">Стоимость</a>
+        <a href="#faq" class="block text-xl text-[#2C3E2D] font-medium serif">Частые вопросы</a>
+        <a href="#contact" class="block w-full text-center px-6 py-4 bg-[#2C3E2D] text-white rounded-full font-medium mt-2">Записаться на сессию</a>
+    </div>
+</header>
+
+<!-- Главный экран (Hero). Высота 100vh минус шапка для правильного отображения на первом экране -->
+<section class="min-h-[calc(100vh-72px)] flex items-center py-12 px-6 relative overflow-hidden">
+    <!-- Декоративный круглый градиент на фоне -->
+    <div class="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-[#E8EAE6]/50 rounded-full blur-3xl -z-10"></div>
+
+    <div class="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+        <div class="flex-1 text-center lg:text-left z-10">
+            <!-- Тег специализации для мгновенного считывания -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-[#E8EAE6] text-[#2C3E2D] rounded-full text-sm mb-6 lg:mb-8 font-semibold shadow-sm border border-[#2C3E2D]/5">
+                <span class="w-2 h-2 rounded-full bg-[#5C715E] animate-pulse"></span>
+                Клинический психолог, КПТ-терапевт
+            </div>
+
+            <h1 class="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-medium leading-[1.1] mb-6 serif text-[#2C3E2D] text-balance">
+                Помогаю найти <br class="hidden lg:block"/>опору внутри себя
+            </h1>
+
+            <p class="text-lg md:text-xl text-[#4A5D4E] mb-10 max-w-xl mx-auto lg:mx-0 text-pretty font-light">
+                Бережное и структурное психологическое консультирование для взрослых. Научно-доказанный подход и полная конфиденциальность. Вы не одни.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <a href="#contact" class="bg-[#344E37] text-white px-8 py-4 rounded-full text-center hover:bg-[#1E2D20] transition-colors font-medium shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                    Записаться на сессию <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+                <a href="#about" class="px-8 py-4 rounded-full text-center border-2 border-[#2C3E2D]/20 hover:border-[#2C3E2D] text-[#2C3E2D] transition-colors font-medium bg-transparent">
+                    Узнать подробнее
+                </a>
+            </div>
+
+            <!-- Микро-траст элементы -->
+            <div class="mt-10 flex items-center justify-center lg:justify-start gap-6 text-sm text-[#4A5D4E]">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="video" class="w-4 h-4 text-[#5C715E]"></i> Онлайн по всему миру
+                </div>
+                <div class="flex items-center gap-2">
+                    <i data-lucide="map-pin" class="w-4 h-4 text-[#5C715E]"></i> Кабинет в Варшаве
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-1 w-full max-w-md lg:max-w-lg mx-auto relative pt-8 lg:pt-0">
+            <!-- Серая подложка как на референсе -->
+            <div class="absolute inset-0 bg-[#E8EAE6] rounded-[2.5rem] md:rounded-[3rem] translate-x-4 -translate-y-4 lg:translate-x-8 lg:-translate-y-8 -z-10 border border-[#2C3E2D]/5"></div>
+            <!-- Заглушка. Использовать вертикальное/квадратное качественное фото -->
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80" alt="Анна Коваль - Психолог" class="w-full h-[500px] lg:h-[650px] object-cover rounded-[2.5rem] md:rounded-[3rem] shadow-2xl relative z-10" />
+
+            <!-- Плашка поверх фото (Social Proof) -->
+            <div class="absolute bottom-10 -left-6 lg:-left-12 bg-white p-4 rounded-2xl shadow-xl flex items-center gap-4 z-20 border border-[#2C3E2D]/10">
+                <div class="flex -space-x-2">
+                    <img class="w-10 h-10 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80" alt="avatar">
+                    <img class="w-10 h-10 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&q=80" alt="avatar">
+                    <div class="w-10 h-10 rounded-full border-2 border-white bg-[#E8EAE6] flex items-center justify-center text-xs font-bold text-[#2C3E2D]">+300</div>
+                </div>
+                <div>
+                    <div class="text-sm font-bold text-[#2C3E2D]">Довольных клиентов</div>
+                    <div class="text-xs text-[#4A5D4E]">За 5 лет практики</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Бегущая строка (Ticker) -->
+<div class="w-full overflow-hidden bg-[#2C3E2D] text-[#FAF9F6] py-5 border-y border-[#2C3E2D]">
+    <div class="animate-ticker flex items-center">
+        <!-- Блок 1 -->
+        <div class="flex items-center whitespace-nowrap px-4 gap-8 text-sm md:text-base uppercase tracking-widest font-semibold">
+            <span>Научный подход (КПТ)</span>
+            <i data-lucide="asterisk" class="w-4 h-4 text-[#E8EAE6]/50"></i>
+            <span>Бережное отношение</span>
+            <i data-lucide="asterisk" class="w-4 h-4 text-[#E8EAE6]/50"></i>
+            <span>Полная конфиденциальность</span>
+            <i data-lucide="asterisk" class="w-4 h-4 text-[#E8EAE6]/50"></i>
+            <span>Онлайн консультации</span>
+            <i data-lucide="asterisk" class="w-4 h-4 text-[#E8EAE6]/50"></i>
+            <span>Безопасное пространство</span>
+            <i data-lucide="asterisk" class="w-4 h-4 text-[#E8EAE6]/50"></i>
+            <span>EMDR Терапия</span>
+            <i data-lucide="asterisk" class="w-4 h-4 text-[#E8EAE6]/50"></i>
+        </div>
+        <!-- Блок 2 (Дубликат для бесшовности) -->
+        <div class="flex items-center whitespace-nowrap px-4 gap-8 text-sm md:text-base uppercase tracking-widest font-semibold">
+            <span>Научный подход (КПТ)</span>
+            <i data-lucide="asterisk" class="w-4 h-4 text-[#E8EAE6]/50"></i>
+            <span>Бережное отношение</span>
+            <i data-lucide="asterisk" class="w-4 h-4 text-[#E8EAE6]/50"></i>
+            <span>Полная конфиденциальность</span>
+            <i data-lucide="asterisk" class="w-4 h-4 text-[#E8EAE6]/50"></i>
+            <span>Онлайн консультации</span>
+            <i data-lucide="asterisk" class="w-4 h-4 text-[#E8EAE6]/50"></i>
+            <span>Безопасное пространство</span>
+            <i data-lucide="asterisk" class="w-4 h-4 text-[#E8EAE6]/50"></i>
+            <span>EMDR Терапия</span>
+            <i data-lucide="asterisk" class="w-4 h-4 text-[#E8EAE6]/50"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Блок со статистикой -->
+<section class="py-16 px-6 bg-white border-b border-[#2C3E2D]/5">
+    <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-8 text-center md:divide-x divide-[#2C3E2D]/10">
+        <div class="flex flex-col items-center">
+            <div class="text-4xl md:text-5xl font-semibold serif mb-2 text-[#2C3E2D]">5+</div>
+            <div class="text-sm md:text-base text-[#4A5D4E] font-medium">Лет успешной<br/>практики</div>
+        </div>
+        <div class="flex flex-col items-center">
+            <div class="text-4xl md:text-5xl font-semibold serif mb-2 text-[#2C3E2D]">1500+</div>
+            <div class="text-sm md:text-base text-[#4A5D4E] font-medium">Часов проведенных<br/>консультаций</div>
+        </div>
+        <div class="flex flex-col items-center">
+            <div class="text-4xl md:text-5xl font-semibold serif mb-2 text-[#2C3E2D]">МГУ</div>
+            <div class="text-sm md:text-base text-[#4A5D4E] font-medium">Фундаментальное<br/>образование</div>
+        </div>
+        <div class="flex flex-col items-center">
+            <div class="text-4xl md:text-5xl font-semibold serif mb-2 text-[#2C3E2D]">АКПП</div>
+            <div class="text-sm md:text-base text-[#4A5D4E] font-medium">Член ассоциации<br/>когнитивно-поведенческой психотерапии</div>
+        </div>
+    </div>
+</section>
+
+<!-- Обо мне (Подробно + Образование) -->
+<section id="about" class="py-24 px-6 relative">
+    <div class="max-w-7xl mx-auto">
+        <div class="grid lg:grid-cols-2 gap-16 items-start">
+            <!-- Левая колонка: Текст -->
+            <div>
+                <h2 class="text-3xl md:text-4xl lg:text-5xl mb-8 serif text-[#2C3E2D]">Давайте знакомиться. <br/>Меня зовут Анна.</h2>
+                <div class="space-y-6 text-[#4A5D4E] text-lg leading-relaxed font-light">
+                    <p>Я — клинический психолог, работаю в научно-обоснованных подходах. Мой путь в психологию начался с желания понять, как работает человеческий мозг и почему мы чувствуем то, что чувствуем.</p>
+                    <p>В терапии я придерживаюсь принципов <strong class="font-semibold text-[#2C3E2D]">партнерства и прозрачности</strong>. Я не являюсь гуру, который знает, как вам жить. Моя роль — быть вашим проводником, задавать правильные вопросы и давать инструменты, с помощью которых вы сами сможете улучшить качество своей жизни.</p>
+                    <p>Я глубоко убеждена, что любые эмоции нормальны, а каждый человек обладает внутренними ресурсами для преодоления кризисов. Иногда нам просто нужен безопасный человек рядом, чтобы эти ресурсы обнаружить.</p>
+                    <p class="pt-4 pb-2 italic">"Моя цель — сделать так, чтобы в конечном итоге я стала вам больше не нужна."</p>
+                </div>
+
+                <!-- Дипломы/Образование (Аккордеон или список) -->
+                <div class="mt-12 pt-12 border-t border-[#2C3E2D]/10">
+                    <h3 class="text-2xl serif mb-6 text-[#2C3E2D]">Образование и квалификация</h3>
+                    <ul class="space-y-4 text-base text-[#4A5D4E]">
+                        <li class="flex items-start gap-4 p-4 bg-white rounded-2xl shadow-sm border border-[#2C3E2D]/5">
+                            <div class="w-10 h-10 bg-[#E8EAE6] rounded-xl flex items-center justify-center shrink-0">
+                                <i data-lucide="graduation-cap" class="w-5 h-5 text-[#5C715E]"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-[#2C3E2D]">МГУ им. М.В. Ломоносова</div>
+                                <div class="text-sm">Клиническая психология (2015-2020) — Диплом с отличием</div>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4 p-4 bg-white rounded-2xl shadow-sm border border-[#2C3E2D]/5">
+                            <div class="w-10 h-10 bg-[#E8EAE6] rounded-xl flex items-center justify-center shrink-0">
+                                <i data-lucide="award" class="w-5 h-5 text-[#5C715E]"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-[#2C3E2D]">Ассоциация КПТ</div>
+                                <div class="text-sm">Базовый курс когнитивно-поведенческой психотерапии (2021)</div>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4 p-4 bg-white rounded-2xl shadow-sm border border-[#2C3E2D]/5">
+                            <div class="w-10 h-10 bg-[#E8EAE6] rounded-xl flex items-center justify-center shrink-0">
+                                <i data-lucide="book-open" class="w-5 h-5 text-[#5C715E]"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-[#2C3E2D]">Институт Схема-терапии</div>
+                                <div class="text-sm">Продвинутый курс по работе с глубинными убеждениями (2023)</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Правая колонка: Коллаж фото -->
+            <div class="relative w-full h-full min-h-[500px] hidden lg:block">
+                <!-- Заднее фото -->
+                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=80" alt="Атмосфера кабинета" class="absolute top-0 right-0 w-3/4 h-[400px] object-cover rounded-3xl shadow-lg border-4 border-[#FAF9F6] rotate-3 hover:rotate-0 transition-transform duration-500 z-10" />
+                <!-- Переднее фото -->
+                <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&q=80" alt="Анна Коваль в работе" class="absolute bottom-10 left-0 w-3/4 h-[450px] object-cover rounded-3xl shadow-xl border-4 border-[#FAF9F6] -rotate-3 hover:rotate-0 transition-transform duration-500 z-20" />
+
+                <div class="absolute -bottom-5 right-10 bg-[#2C3E2D] text-white p-6 rounded-2xl shadow-xl z-30 max-w-[200px]">
+                    <i data-lucide="quote" class="w-8 h-8 text-[#E8EAE6]/50 mb-2"></i>
+                    <p class="text-sm font-medium">Регулярно прохожу личную терапию и супервизию</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Запросы (С чем я работаю - 9 карточек для масштаба) -->
+<section id="problems" class="py-24 px-6 bg-[#E8EAE6]/30">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16 lg:mb-20">
+            <h2 class="text-3xl md:text-4xl lg:text-5xl mb-6 serif text-[#2C3E2D]">С какими запросами я помогаю</h2>
+            <p class="text-[#4A5D4E] text-lg max-w-2xl mx-auto">Я работаю со взрослыми клиентами (от 18 лет). Если вы сомневаетесь, подходит ли ваш запрос, просто напишите мне для уточнения.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Карточки запросов -->
+            <div class="bg-white p-8 rounded-3xl shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-[#2C3E2D]/5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                <div class="w-14 h-14 bg-[#FAF9F6] rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#E8EAE6] transition-colors">
+                    <i data-lucide="cloud-lightning" class="w-7 h-7 text-[#5C715E]"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 serif text-[#2C3E2D]">Тревожные расстройства</h3>
+                <p class="text-[#4A5D4E] text-sm leading-relaxed">Панические атаки, ГТР, социальная тревожность, постоянный фоновый стресс, фобии и навязчивые мысли (ОКР).</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-[#2C3E2D]/5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                <div class="w-14 h-14 bg-[#FAF9F6] rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#E8EAE6] transition-colors">
+                    <i data-lucide="heart-crack" class="w-7 h-7 text-[#5C715E]"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 serif text-[#2C3E2D]">Кризисы в отношениях</h3>
+                <p class="text-[#4A5D4E] text-sm leading-relaxed">Проживание расставания, развод, конфликты с партнером, созависимые отношения, сепарация от родителей.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-[#2C3E2D]/5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                <div class="w-14 h-14 bg-[#FAF9F6] rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#E8EAE6] transition-colors">
+                    <i data-lucide="battery-medium" class="w-7 h-7 text-[#5C715E]"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 serif text-[#2C3E2D]">Выгорание и депрессия</h3>
+                <p class="text-[#4A5D4E] text-sm leading-relaxed">Потеря смысла жизни, апатия, хроническая усталость, отсутствие мотивации, профессиональное выгорание.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-[#2C3E2D]/5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                <div class="w-14 h-14 bg-[#FAF9F6] rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#E8EAE6] transition-colors">
+                    <i data-lucide="user-search" class="w-7 h-7 text-[#5C715E]"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 serif text-[#2C3E2D]">Самооценка и границы</h3>
+                <p class="text-[#4A5D4E] text-sm leading-relaxed">Синдром самозванца, неуверенность в себе, перфекционизм, неумение говорить «нет» и защищать свои интересы.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-[#2C3E2D]/5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                <div class="w-14 h-14 bg-[#FAF9F6] rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#E8EAE6] transition-colors">
+                    <i data-lucide="brain" class="w-7 h-7 text-[#5C715E]"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 serif text-[#2C3E2D]">Эмоциональная регуляция</h3>
+                <p class="text-[#4A5D4E] text-sm leading-relaxed">Неконтролируемые вспышки гнева, агрессия, подавленность, чувство вины и стыда, алекситимия.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-[#2C3E2D]/5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                <div class="w-14 h-14 bg-[#FAF9F6] rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#E8EAE6] transition-colors">
+                    <i data-lucide="compass" class="w-7 h-7 text-[#5C715E]"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 serif text-[#2C3E2D]">Жизненные изменения</h3>
+                <p class="text-[#4A5D4E] text-sm leading-relaxed">Трудности адаптации при переезде/эмиграции, смена профессии, возрастные кризисы, потеря близких.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-[#2C3E2D]/5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                <div class="w-14 h-14 bg-[#FAF9F6] rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#E8EAE6] transition-colors">
+                    <i data-lucide="activity" class="w-7 h-7 text-[#5C715E]"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 serif text-[#2C3E2D]">Психосоматика</h3>
+                <p class="text-[#4A5D4E] text-sm leading-relaxed">Физические симптомы без медицинских причин, напряжение в теле, проблемы со сном на фоне стресса.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-[#2C3E2D]/5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                <div class="w-14 h-14 bg-[#FAF9F6] rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#E8EAE6] transition-colors">
+                    <i data-lucide="apple" class="w-7 h-7 text-[#5C715E]"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 serif text-[#2C3E2D]">РПП (Легкие формы)</h3>
+                <p class="text-[#4A5D4E] text-sm leading-relaxed">Компульсивное переедание, недовольство своим телом, тревога вокруг еды. (В партнерстве с диетологом).</p>
+            </div>
+
+            <!-- CTA Card -->
+            <div class="bg-[#344E37] p-8 rounded-3xl flex flex-col justify-center text-white shadow-lg relative overflow-hidden group hover:bg-[#2C3E2D] transition-colors">
+                <div class="absolute -right-10 -bottom-10 opacity-10 text-[150px]">
+                    <i data-lucide="messages-square" class="w-full h-full"></i>
+                </div>
+                <div class="relative z-10">
+                    <h3 class="text-2xl font-bold mb-3 serif">Не нашли свой запрос?</h3>
+                    <p class="text-white/80 text-sm leading-relaxed mb-8">Многие проблемы сложно уложить в рамки. Напишите мне, и мы обсудим, смогу ли я помочь конкретно в вашей ситуации.</p>
+                    <a href="#contact" class="inline-flex items-center gap-3 text-base font-semibold hover:gap-5 transition-all bg-white text-[#344E37] px-6 py-3 rounded-full w-max">
+                        Задать вопрос <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Методы работы (Новая секция) -->
+<section id="methods" class="py-24 px-6 bg-white">
+    <div class="max-w-7xl mx-auto">
+        <div class="mb-16">
+            <span class="text-[#5C715E] font-bold tracking-widest uppercase text-sm mb-2 block">Научный подход</span>
+            <h2 class="text-3xl md:text-4xl lg:text-5xl serif text-[#2C3E2D]">В каких подходах я работаю</h2>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-12">
+            <!-- Метод 1 -->
+            <div class="border-l-4 border-[#344E37] pl-6 md:pl-10">
+                <h3 class="text-2xl font-bold mb-4 serif text-[#2C3E2D]">Когнитивно-поведенческая терапия (КПТ)</h3>
+                <p class="text-[#4A5D4E] leading-relaxed mb-4">Золотой стандарт психотерапии во всем мире с доказанной эффективностью. Суть метода заключается в том, что наши мысли (когниции) определяют наши эмоции и поведение.</p>
+                <ul class="space-y-2 text-sm text-[#4A5D4E]">
+                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#5C715E]"></i> Краткосрочность и ориентированность на цель.</li>
+                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#5C715E]"></i> Обучение навыкам самопомощи.</li>
+                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#5C715E]"></i> Работа в настоящем (здесь и сейчас).</li>
+                </ul>
+            </div>
+
+            <!-- Метод 2 -->
+            <div class="border-l-4 border-[#E8EAE6] pl-6 md:pl-10">
+                <h3 class="text-2xl font-bold mb-4 serif text-[#2C3E2D]">Схема-терапия</h3>
+                <p class="text-[#4A5D4E] leading-relaxed mb-4">Интегративный подход для работы с более глубокими, затяжными проблемами и расстройствами личности. Помогает изменить укоренившиеся паттерны поведения, заложенные в детстве.</p>
+                <ul class="space-y-2 text-sm text-[#4A5D4E]">
+                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#5C715E]"></i> Работа с детскими травмами.</li>
+                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#5C715E]"></i> Закрытие базовых эмоциональных потребностей.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Процесс работы (Шаги) -->
+<section id="process" class="py-24 px-6 bg-[#2C3E2D] text-white">
+    <div class="max-w-7xl mx-auto">
+        <h2 class="text-3xl md:text-4xl lg:text-5xl text-center mb-20 serif">Как строится процесс терапии</h2>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 relative">
+            <!-- Декоративная линия коннектор -->
+            <div class="hidden lg:block absolute top-10 left-[12%] right-[12%] h-px bg-white/20 border-t border-dashed border-white/30"></div>
+
+            <!-- Шаг 1 -->
+            <div class="relative z-10 flex flex-col items-center text-center group">
+                <div class="w-20 h-20 bg-[#344E37] border-4 border-[#2C3E2D] rounded-full flex items-center justify-center mb-6 text-3xl serif shadow-lg transition-transform group-hover:scale-110">1</div>
+                <h3 class="text-xl font-bold mb-3 serif">Первая встреча</h3>
+                <p class="text-white/70 text-sm leading-relaxed">Диагностическая сессия. Мы знакомимся, вы рассказываете о своей проблеме. Мы формулируем запрос и намечаем примерный план работы.</p>
+            </div>
+
+            <!-- Шаг 2 -->
+            <div class="relative z-10 flex flex-col items-center text-center group">
+                <div class="w-20 h-20 bg-[#344E37] border-4 border-[#2C3E2D] rounded-full flex items-center justify-center mb-6 text-3xl serif shadow-lg transition-transform group-hover:scale-110">2</div>
+                <h3 class="text-xl font-bold mb-3 serif">Активная фаза</h3>
+                <p class="text-white/70 text-sm leading-relaxed">Встречи 1 раз в неделю (55 мин). Исследуем ваши мысли и реакции, делаем упражнения прямо на сессии. Вы получаете домашние задания для практики навыков.</p>
+            </div>
+
+            <!-- Шаг 3 -->
+            <div class="relative z-10 flex flex-col items-center text-center group">
+                <div class="w-20 h-20 bg-[#344E37] border-4 border-[#2C3E2D] rounded-full flex items-center justify-center mb-6 text-3xl serif shadow-lg transition-transform group-hover:scale-110">3</div>
+                <h3 class="text-xl font-bold mb-3 serif">Закрепление</h3>
+                <p class="text-white/70 text-sm leading-relaxed">Когда симптомы снижаются, мы переходим на режим 1 раз в 2-3 недели. Тестируем новые модели поведения в реальной жизни.</p>
+            </div>
+
+            <!-- Шаг 4 -->
+            <div class="relative z-10 flex flex-col items-center text-center group">
+                <div class="w-20 h-20 bg-[#344E37] border-4 border-[#2C3E2D] rounded-full flex items-center justify-center mb-6 text-3xl serif shadow-lg transition-transform group-hover:scale-110">4</div>
+                <h3 class="text-xl font-bold mb-3 serif">Завершение</h3>
+                <p class="text-white/70 text-sm leading-relaxed">Подводим итоги. Вы становитесь терапевтом самому себе, имея чемоданчик инструментов для самопомощи на будущее.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Цены и форматы -->
+<section id="pricing" class="py-24 px-6 bg-[#FAF9F6]">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl lg:text-5xl mb-6 serif text-[#2C3E2D]">Форматы и стоимость</h2>
+            <p class="text-[#4A5D4E] text-lg max-w-2xl mx-auto">Выберите наиболее удобный для вас вариант взаимодействия.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8 items-stretch">
+            <!-- Тариф 1: Диагностика -->
+            <div class="p-8 bg-white rounded-[2rem] border border-[#2C3E2D]/10 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+                <div class="mb-4">
+                    <h3 class="text-2xl font-bold serif mb-2 text-[#2C3E2D]">Знакомство</h3>
+                    <p class="text-[#4A5D4E] text-sm">Короткая онлайн-встреча для калибровки и знакомства.</p>
+                </div>
+                <div class="my-6">
+                    <span class="text-4xl serif font-medium text-[#2C3E2D]">€ 20</span>
+                    <span class="text-[#4A5D4E]"> / 20 мин</span>
+                </div>
+                <ul class="space-y-4 mb-8 flex-1 text-sm text-[#4A5D4E]">
+                    <li class="flex items-start gap-3"><i data-lucide="check" class="w-5 h-5 text-[#5C715E] shrink-0"></i> Уточнение запроса</li>
+                    <li class="flex items-start gap-3"><i data-lucide="check" class="w-5 h-5 text-[#5C715E] shrink-0"></i> Оценка возможности работы в КПТ</li>
+                    <li class="flex items-start gap-3"><i data-lucide="check" class="w-5 h-5 text-[#5C715E] shrink-0"></i> Проверка личной совместимости</li>
+                </ul>
+                <a href="#contact" class="w-full block text-center py-4 border-2 border-[#2C3E2D] text-[#2C3E2D] rounded-full font-bold hover:bg-[#2C3E2D] hover:text-white transition-colors">Записаться</a>
+            </div>
+
+            <!-- Тариф 2: Онлайн (Акцентный) -->
+            <div class="p-8 bg-[#344E37] text-white rounded-[2rem] shadow-2xl scale-100 md:scale-105 relative z-10 flex flex-col h-full border-4 border-white">
+                <div class="absolute top-0 right-8 bg-[#E8EAE6] text-[#2C3E2D] px-4 py-1 rounded-b-lg text-xs font-bold uppercase tracking-wider">
+                    Популярно
+                </div>
+                <div class="mb-4 pt-4">
+                    <h3 class="text-2xl font-bold serif mb-2">Онлайн сессия</h3>
+                    <p class="text-white/80 text-sm">Полноценная терапевтическая сессия по видеосвязи.</p>
+                </div>
+                <div class="my-6">
+                    <span class="text-5xl serif font-medium">€ 50</span>
+                    <span class="text-white/70"> / 55 мин</span>
+                </div>
+                <ul class="space-y-4 mb-8 flex-1 text-sm text-white/90">
+                    <li class="flex items-start gap-3"><i data-lucide="video" class="w-5 h-5 text-[#E8EAE6] shrink-0"></i> Zoom, Google Meet или Telegram</li>
+                    <li class="flex items-start gap-3"><i data-lucide="file-text" class="w-5 h-5 text-[#E8EAE6] shrink-0"></i> Рабочие материалы и тесты</li>
+                    <li class="flex items-start gap-3"><i data-lucide="message-circle" class="w-5 h-5 text-[#E8EAE6] shrink-0"></i> Поддержка в мессенджере между сессиями</li>
+                    <li class="flex items-start gap-3"><i data-lucide="globe" class="w-5 h-5 text-[#E8EAE6] shrink-0"></i> Из любой точки мира</li>
+                </ul>
+                <a href="#contact" class="w-full block text-center py-4 bg-white text-[#344E37] rounded-full font-bold hover:bg-[#E8EAE6] transition-colors shadow-md">Выбрать онлайн</a>
+            </div>
+
+            <!-- Тариф 3: Очно -->
+            <div class="p-8 bg-white rounded-[2rem] border border-[#2C3E2D]/10 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+                <div class="mb-4">
+                    <h3 class="text-2xl font-bold serif mb-2 text-[#2C3E2D]">Очная встреча</h3>
+                    <p class="text-[#4A5D4E] text-sm">Для тех, кто находится в Варшаве и предпочитает живое общение.</p>
+                </div>
+                <div class="my-6">
+                    <span class="text-4xl serif font-medium text-[#2C3E2D]">€ 70</span>
+                    <span class="text-[#4A5D4E]"> / 55 мин</span>
+                </div>
+                <ul class="space-y-4 mb-8 flex-1 text-sm text-[#4A5D4E]">
+                    <li class="flex items-start gap-3"><i data-lucide="map-pin" class="w-5 h-5 text-[#5C715E] shrink-0"></i> Уютный кабинет (Śródmieście)</li>
+                    <li class="flex items-start gap-3"><i data-lucide="coffee" class="w-5 h-5 text-[#5C715E] shrink-0"></i> Чай, кофе, вода, салфетки</li>
+                    <li class="flex items-start gap-3"><i data-lucide="shield" class="w-5 h-5 text-[#5C715E] shrink-0"></i> Безопасное, звукоизолированное пространство</li>
+                </ul>
+                <a href="#contact" class="w-full block text-center py-4 border-2 border-[#2C3E2D] text-[#2C3E2D] rounded-full font-bold hover:bg-[#2C3E2D] hover:text-white transition-colors">Узнать расписание</a>
+            </div>
+        </div>
+
+        <!-- Оплата и отмена -->
+        <div class="mt-12 bg-white p-6 rounded-2xl border border-[#2C3E2D]/10 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-[#E8EAE6] rounded-full flex items-center justify-center shrink-0">
+                    <i data-lucide="credit-card" class="w-6 h-6 text-[#5C715E]"></i>
+                </div>
+                <div>
+                    <div class="font-bold text-[#2C3E2D]">Оплата и отмена</div>
+                    <div class="text-sm text-[#4A5D4E]">Оплата производится переводом на карту/счет перед сессией. Бесплатная отмена или перенос возможны за 24 часа.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ (Расширенный) -->
+<section id="faq" class="py-24 px-6 bg-[#E8EAE6]/40">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl lg:text-5xl mb-6 serif text-[#2C3E2D]">Часто задаваемые вопросы</h2>
+        </div>
+
+        <div class="space-y-4">
+            <details class="group bg-white rounded-[1.5rem] border border-[#2C3E2D]/5 p-6 md:p-8 [&_summary::-webkit-details-marker]:hidden cursor-pointer shadow-sm hover:shadow-md transition-shadow">
+                <summary class="flex justify-between items-center font-bold text-lg md:text-xl serif outline-none text-[#2C3E2D]">
+                    Сколько сессий мне понадобится?
+                    <span class="transition-transform duration-300 group-open:rotate-180 text-[#5C715E] bg-[#FAF9F6] p-2 rounded-full">
+                            <i data-lucide="chevron-down" class="w-5 h-5"></i>
+                        </span>
+                </summary>
+                <div class="text-[#4A5D4E] text-base mt-6 leading-relaxed border-t border-[#2C3E2D]/10 pt-4">
+                    Это очень индивидуально. В рамках КПТ (краткосрочного подхода) для решения локальной проблемы (например, страх летать на самолетах или легкая степень социальной тревожности) может потребоваться от 5 до 15 сессий. Глубинная работа со стойкими убеждениями о себе или длительными депрессивными состояниями требует больше времени — от полугода. Мы обсудим ориентировочные сроки на первых встречах.
+                </div>
+            </details>
+
+            <details class="group bg-white rounded-[1.5rem] border border-[#2C3E2D]/5 p-6 md:p-8 [&_summary::-webkit-details-marker]:hidden cursor-pointer shadow-sm hover:shadow-md transition-shadow">
+                <summary class="flex justify-between items-center font-bold text-lg md:text-xl serif outline-none text-[#2C3E2D]">
+                    В чем разница между психологом, психотерапевтом и психиатром?
+                    <span class="transition-transform duration-300 group-open:rotate-180 text-[#5C715E] bg-[#FAF9F6] p-2 rounded-full">
+                            <i data-lucide="chevron-down" class="w-5 h-5"></i>
+                        </span>
+                </summary>
+                <div class="text-[#4A5D4E] text-base mt-6 leading-relaxed border-t border-[#2C3E2D]/10 pt-4">
+                    <strong>Психиатр</strong> — это врач, который ставит медицинские диагнозы и имеет право выписывать таблетки (антидепрессанты, транквилизаторы). <br><br>
+                    <strong>Психолог</strong> — специалист с гуманитарным образованием, помогающий справиться с жизненными трудностями без медикаментов (разговорная терапия). <br><br>
+                    <strong>Клинический психолог</strong> (как я) — специалист, который обучался в медицинском контексте, понимает норму и патологию, умеет работать с расстройствами (депрессия, ГТР), но лечит словом, а не таблетками. Часто мы работаем в паре с психиатрами.
+                </div>
+            </details>
+
+            <details class="group bg-white rounded-[1.5rem] border border-[#2C3E2D]/5 p-6 md:p-8 [&_summary::-webkit-details-marker]:hidden cursor-pointer shadow-sm hover:shadow-md transition-shadow">
+                <summary class="flex justify-between items-center font-bold text-lg md:text-xl serif outline-none text-[#2C3E2D]">
+                    Обязательно ли включать камеру на онлайн-сессии?
+                    <span class="transition-transform duration-300 group-open:rotate-180 text-[#5C715E] bg-[#FAF9F6] p-2 rounded-full">
+                            <i data-lucide="chevron-down" class="w-5 h-5"></i>
+                        </span>
+                </summary>
+                <div class="text-[#4A5D4E] text-base mt-6 leading-relaxed border-t border-[#2C3E2D]/10 pt-4">
+                    Да, для качественной терапевтической работы визуальный контакт критически важен. Это позволяет мне видеть ваши невербальные реакции (мимику, жесты, слезы, напряжение), что является огромной частью процесса. Аудиозвонки или переписки не заменят полноценную сессию.
+                </div>
+            </details>
+
+            <details class="group bg-white rounded-[1.5rem] border border-[#2C3E2D]/5 p-6 md:p-8 [&_summary::-webkit-details-marker]:hidden cursor-pointer shadow-sm hover:shadow-md transition-shadow">
+                <summary class="flex justify-between items-center font-bold text-lg md:text-xl serif outline-none text-[#2C3E2D]">
+                    А вдруг я не смогу открыться на первой встрече?
+                    <span class="transition-transform duration-300 group-open:rotate-180 text-[#5C715E] bg-[#FAF9F6] p-2 rounded-full">
+                            <i data-lucide="chevron-down" class="w-5 h-5"></i>
+                        </span>
+                </summary>
+                <div class="text-[#4A5D4E] text-base mt-6 leading-relaxed border-t border-[#2C3E2D]/10 pt-4">
+                    Это абсолютно нормально. Доверие не возникает по щелчку пальцев. На первых сессиях вы рассказываете ровно столько, сколько готовы. Я не буду "допрашивать" вас или давить на больные точки. Мы будем двигаться в вашем комфортном темпе.
+                </div>
+            </details>
+
+            <details class="group bg-white rounded-[1.5rem] border border-[#2C3E2D]/5 p-6 md:p-8 [&_summary::-webkit-details-marker]:hidden cursor-pointer shadow-sm hover:shadow-md transition-shadow">
+                <summary class="flex justify-between items-center font-bold text-lg md:text-xl serif outline-none text-[#2C3E2D]">
+                    Гарантируете ли вы конфиденциальность?
+                    <span class="transition-transform duration-300 group-open:rotate-180 text-[#5C715E] bg-[#FAF9F6] p-2 rounded-full">
+                            <i data-lucide="chevron-down" class="w-5 h-5"></i>
+                        </span>
+                </summary>
+                <div class="text-[#4A5D4E] text-base mt-6 leading-relaxed border-t border-[#2C3E2D]/10 pt-4">
+                    Безусловно. Все, что мы обсуждаем на сессии, остается строго между нами. Это базовое правило этического кодекса психолога. Исключения составляют только ситуации, угрожающие вашей жизни или жизни других людей (о чем я предупреждаю заранее на первой встрече).
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
+
+<!-- Контакты / CTA -->
+<section id="contact" class="py-24 px-6 border-t border-[#2C3E2D]/10 bg-white relative overflow-hidden">
+    <!-- Декоративные элементы -->
+    <div class="absolute -left-[10%] -bottom-[20%] w-[500px] h-[500px] bg-[#E8EAE6]/50 rounded-full blur-3xl -z-10"></div>
+    <div class="absolute -right-[10%] -top-[10%] w-[300px] h-[300px] bg-[#5C715E]/5 rounded-full blur-3xl -z-10"></div>
+
+    <div class="max-w-4xl mx-auto bg-[#FAF9F6] rounded-[3rem] p-10 md:p-16 text-center border border-[#2C3E2D]/10 shadow-2xl relative z-10">
+        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-8 shadow-sm">
+            <i data-lucide="calendar-heart" class="w-10 h-10 text-[#344E37]"></i>
+        </div>
+
+        <h2 class="text-3xl md:text-5xl serif mb-6 text-[#2C3E2D]">Готовы сделать первый шаг?</h2>
+        <p class="text-[#4A5D4E] mb-12 text-lg md:text-xl max-w-2xl mx-auto">
+            Напишите мне в любой удобный мессенджер: кратко опишите свой запрос и пожелания по времени. Я отвечаю лично в течение дня.
+        </p>
+
+        <div class="flex flex-col sm:flex-row justify-center gap-6">
+            <a href="https://t.me/your_telegram" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-3 px-10 py-5 bg-[#2AABEE] text-white rounded-full hover:bg-[#2298D4] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 font-bold text-lg">
+                <i data-lucide="send" class="w-6 h-6"></i> Написать в Telegram
+            </a>
+            <a href="https://wa.me/your_whatsapp" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-3 px-10 py-5 bg-[#25D366] text-white rounded-full hover:bg-[#20bd5a] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 font-bold text-lg">
+                <i data-lucide="phone" class="w-6 h-6"></i> Написать в WhatsApp
+            </a>
+        </div>
+
+        <div class="mt-10 text-sm text-[#4A5D4E] flex items-center justify-center gap-2">
+            <i data-lucide="clock" class="w-4 h-4"></i> Рабочие часы: Пн - Пт, 10:00 - 19:00 (по Варшаве)
+        </div>
+    </div>
+</section>
+
+<!-- Массивный Футер -->
+<footer class="bg-[#2C3E2D] text-[#FAF9F6]/80 pt-20 pb-10 px-6 border-t-[8px] border-[#344E37]">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+
+        <!-- Блок 1: О специалисте -->
+        <div class="lg:col-span-1">
+            <div class="text-2xl font-bold serif text-white mb-4">Анна Коваль</div>
+            <p class="text-sm leading-relaxed mb-6">
+                Клинический психолог, сертифицированный КПТ-терапевт. Бережная помощь в преодолении тревоги, выгорания и кризисов.
+            </p>
+            <div class="flex gap-4">
+                <a href="#" aria-label="Instagram" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white hover:text-[#2C3E2D] transition-colors">
+                    <i data-lucide="instagram" class="w-5 h-5"></i>
+                </a>
+                <a href="#" aria-label="Telegram Channel" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white hover:text-[#2C3E2D] transition-colors">
+                    <i data-lucide="send" class="w-5 h-5"></i>
+                </a>
+                <a href="#" aria-label="YouTube" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white hover:text-[#2C3E2D] transition-colors">
+                    <i data-lucide="youtube" class="w-5 h-5"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Блок 2: Навигация -->
+        <div>
+            <h4 class="text-white font-bold mb-6 tracking-wider uppercase text-sm">Меню</h4>
+            <ul class="space-y-3 text-sm">
+                <li><a href="#about" class="hover:text-white hover:translate-x-1 inline-block transition-transform">Обо мне</a></li>
+                <li><a href="#problems" class="hover:text-white hover:translate-x-1 inline-block transition-transform">Запросы</a></li>
+                <li><a href="#methods" class="hover:text-white hover:translate-x-1 inline-block transition-transform">Методы работы</a></li>
+                <li><a href="#pricing" class="hover:text-white hover:translate-x-1 inline-block transition-transform">Цены и форматы</a></li>
+                <li><a href="#faq" class="hover:text-white hover:translate-x-1 inline-block transition-transform">FAQ</a></li>
+            </ul>
+        </div>
+
+        <!-- Блок 3: Контакты -->
+        <div>
+            <h4 class="text-white font-bold mb-6 tracking-wider uppercase text-sm">Контакты</h4>
+            <ul class="space-y-4 text-sm">
+                <li class="flex items-start gap-3">
+                    <i data-lucide="mail" class="w-5 h-5 text-white/50 shrink-0"></i>
+                    <a href="mailto:hello@annakoval.com" class="hover:text-white transition-colors">hello@annakoval.com</a>
+                </li>
+                <li class="flex items-start gap-3">
+                    <i data-lucide="map-pin" class="w-5 h-5 text-white/50 shrink-0"></i>
+                    <span>ul. Złota 44, Варшава, Польша (по предварительной записи)</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Блок 4: Важно -->
+        <div>
+            <h4 class="text-white font-bold mb-6 tracking-wider uppercase text-sm">Важно</h4>
+            <div class="bg-white/5 p-4 rounded-xl border border-white/10 text-xs leading-relaxed text-white/70">
+                <i data-lucide="alert-circle" class="w-4 h-4 mb-2 text-white/50"></i>
+                Я не выписываю медикаменты и не работаю с химическими зависимостями, шизофренией и несовершеннолетними. При необходимости перенаправляю к профильным коллегам-психиатрами.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Нижняя полоса -->
+    <div class="max-w-7xl mx-auto mt-8 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
+        <p>&copy; 2026 Анна Коваль. Все права защищены.</p>
+        <div class="flex flex-wrap gap-4 justify-center">
+            <a href="#" class="hover:text-white transition-colors underline underline-offset-4">Политика конфиденциальности</a>
+            <a href="#" class="hover:text-white transition-colors underline underline-offset-4">Договор оферты</a>
+            <a href="#" class="hover:text-white transition-colors underline underline-offset-4">Согласие на обработку данных</a>
+        </div>
+    </div>
+</footer>
+
+<!-- Скрипты инициализации -->
+<script>
+    // Инициализация всех иконок Lucide
+    lucide.createIcons();
+
+    // Логика работы мобильного меню
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = mobileBtn.querySelector('i');
+
+    mobileBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+        mobileMenu.classList.toggle('flex');
+
+        // Смена иконки меню на крестик
+        if(mobileMenu.classList.contains('flex')) {
+            menuIcon.setAttribute('data-lucide', 'x');
+        } else {
+            menuIcon.setAttribute('data-lucide', 'menu');
+        }
+        lucide.createIcons();
+    });
+
+    // Закрытие меню при клике на любую ссылку в нем
+    mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            mobileMenu.classList.remove('flex');
+            menuIcon.setAttribute('data-lucide', 'menu');
+            lucide.createIcons();
+        });
+    });
+
+    // Эффект тени для шапки при скролле
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 10) {
+            navbar.classList.add('shadow-md');
+        } else {
+            navbar.classList.remove('shadow-md');
+        }
+    });
+</script>
+</body>
+</html>

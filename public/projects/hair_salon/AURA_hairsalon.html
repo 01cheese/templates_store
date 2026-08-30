@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURA. | Premium Hair Atelier Gdańsk</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Ustawienia Tailwind -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+          },
+          colors: {
+            paper: '#F5F5F0',
+            surface: '#EBEBE6',
+            ink: '#1A1A1A',
+            taupe: '#8C7A6B',
+            'taupe-light': '#D6CFC7'
+          },
+          borderRadius: {
+            '4xl': '2rem',
+            '5xl': '3rem',
+          },
+          boxShadow: {
+            'soft': '0 10px 40px -10px rgba(0,0,0,0.05)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Fancybox CSS (dla podglądu zdjęć) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
+
+  <style>
+    body {
+      background-color: #F5F5F0;
+      color: #1A1A1A;
+      overflow-x: hidden;
+    }
+
+    /* Płynne przewijanie Lenis */
+    html.lenis { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto; }
+    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+    .lenis.lenis-stopped { overflow: hidden; }
+
+    /* Bezszwowa karuzela zdjęć */
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: flex;
+      width: max-content;
+      animation: marquee 30s linear infinite;
+    }
+
+    /* Ukrycie paska przewijania */
+    ::-webkit-scrollbar { display: none; }
+  </style>
+</head>
+<body class="antialiased selection:bg-taupe selection:text-white">
+
+<!-- Nagłówek (Header) -->
+<header id="header" class="fixed w-full top-0 z-50 transition-all duration-500 py-5 px-6 md:px-12 flex justify-between items-center">
+  <div class="absolute inset-0 bg-paper/90 backdrop-blur-md border-b border-ink/5 opacity-0 transition-opacity duration-500" id="header-bg"></div>
+
+  <a href="#" class="relative z-10 text-2xl md:text-3xl font-serif font-bold tracking-wide text-ink">
+    AURA.
+  </a>
+
+  <!-- Menu Desktop -->
+  <nav class="hidden md:flex gap-10 text-xs font-medium tracking-widest uppercase relative z-50 text-ink/70">
+    <a href="#philosophy" class="hover:text-taupe transition-colors">Filozofia</a>
+    <a href="#services" class="hover:text-taupe transition-colors">Usługi</a>
+    <a href="#contact" class="hover:text-taupe transition-colors">Kontakt</a>
+  </nav>
+
+  <!-- Przycisk Booksy w nagłówku -->
+  <a href="https://booksy.com/pl-pl/" target="_blank" rel="noopener noreferrer" class="hidden md:inline-flex relative z-50 bg-ink text-white text-xs font-medium uppercase tracking-widest px-8 py-3 rounded-full hover:bg-taupe hover:shadow-soft transition-all duration-300 items-center gap-2">
+    Zarezerwuj
+  </a>
+
+  <!-- Przycisk Mobile Menu -->
+  <button id="mobile-menu-btn" class="md:hidden relative z-50 p-2 text-ink flex items-center justify-center">
+    <span id="burger-icon"><i data-lucide="menu" class="w-6 h-6"></i></span>
+    <span id="close-icon" class="hidden"><i data-lucide="x" class="w-6 h-6"></i></span>
+  </button>
+</header>
+
+<!-- Menu Mobilne -->
+<div id="mobile-menu" class="fixed inset-0 bg-paper z-40 hidden flex-col justify-center items-center gap-8 px-6 opacity-0">
+  <a href="#philosophy" class="mobile-link text-4xl font-serif text-ink hover:text-taupe transition-colors opacity-0 translate-y-4">Filozofia</a>
+  <a href="#services" class="mobile-link text-4xl font-serif text-ink hover:text-taupe transition-colors opacity-0 translate-y-4">Usługi</a>
+  <a href="#contact" class="mobile-link text-4xl font-serif text-ink hover:text-taupe transition-colors opacity-0 translate-y-4">Kontakt</a>
+  <a href="https://booksy.com/pl-pl/" target="_blank" class="mobile-link mt-8 bg-ink text-white text-sm uppercase tracking-widest px-10 py-4 rounded-full opacity-0 translate-y-4 text-center w-full max-w-xs">
+    Zarezerwuj wizytę
+  </a>
+</div>
+
+<main>
+  <!-- 1. Hero Section -->
+  <section class="pt-28 pb-16 px-6 md:px-12 lg:min-h-[100svh] flex flex-col justify-center relative overflow-hidden">
+    <div class="max-w-7xl mx-auto w-full flex flex-col lg:grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
+
+      <!-- Zdjęcie główne (naprawiony link) -->
+      <div class="gs-hero-img relative w-full h-[400px] sm:h-[500px] lg:h-[80vh] order-1 lg:order-2 mt-4 lg:mt-0">
+        <div class="absolute inset-0 bg-surface rounded-[2rem] md:rounded-[3rem] translate-x-4 translate-y-4 md:translate-x-8 md:translate-y-8 -z-10"></div>
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=1200" alt="Salon wnętrze" class="w-full h-full object-cover rounded-[2rem] md:rounded-[3rem] shadow-soft grayscale hover:grayscale-0 transition-all duration-700" />
+      </div>
+
+      <!-- Tekst -->
+      <div class="gs-fade-up relative z-10 order-2 lg:order-1 w-full">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-ink/10 mb-6 text-[10px] sm:text-xs font-medium uppercase tracking-widest text-taupe">
+          <span class="w-1.5 h-1.5 rounded-full bg-taupe"></span> Premium Hair Atelier
+        </div>
+
+        <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-[80px] font-serif leading-[1.05] text-ink mb-6">
+          Sztuka <br/>
+          <span class="italic text-taupe">idealnych</span> <br/>
+          włosów.
+        </h1>
+
+        <p class="text-ink/60 text-base sm:text-lg md:text-xl font-light max-w-md mb-8 leading-relaxed">
+          Przestrzeń, w której sztuka fryzjerska spotyka się z relaksem. Dbamy o zdrowie, kolor i piękno Twoich włosów w najdrobniejszych detalach.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-4 sm:gap-6">
+          <a href="https://booksy.com/pl-pl/" target="_blank" rel="noopener noreferrer" class="bg-ink text-white px-8 py-4 rounded-full text-xs sm:text-sm font-medium uppercase tracking-widest hover:bg-taupe hover:shadow-soft transition-all duration-300">
+            Zarezerwuj
+          </a>
+          <a href="#services" class="text-xs sm:text-sm font-medium uppercase tracking-widest text-ink hover:text-taupe transition-colors flex items-center gap-2 border-b border-ink/20 hover:border-taupe pb-1">
+            Cennik <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 2. Filozofia (Philosophy) -->
+  <section id="philosophy" class="py-24 md:py-32 px-6">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-16 items-center">
+      <div class="flex-1 relative gs-fade-right">
+        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&q=80&w=800" alt="Stylizacja włosów" class="w-full h-[500px] object-cover rounded-[2rem] shadow-soft" />
+        <!-- Cytat -->
+        <div class="absolute -bottom-8 -right-8 md:-bottom-12 md:-right-12 bg-white p-8 rounded-3xl shadow-soft max-w-xs hidden sm:block">
+          <i data-lucide="quote" class="w-8 h-8 text-taupe/30 mb-4"></i>
+          <p class="font-serif text-ink text-lg leading-snug">"Zdrowe włosy to fundament. Dopiero na nim budujemy idealny kolor i formę."</p>
+        </div>
+      </div>
+      <div class="flex-1 gs-fade-left">
+        <h2 class="text-4xl md:text-5xl font-serif text-ink mb-8">Harmonia i Świadomość</h2>
+        <div class="space-y-6 text-ink/70 font-light text-base md:text-lg leading-relaxed">
+          <p>AURA. to salon stworzony z myślą o świadomej pielęgnacji. Każda koloryzacja czy cięcie poprzedzone jest dokładną diagnozą stanu Twoich włosów i skóry głowy.</p>
+          <p>Pracujemy wyłącznie na bezpiecznych, wegańskich i luksusowych markach (np. Kevin Murphy, Oribe), aby zapewnić długotrwały efekt i spektakularny blask bez kompromisów dla zdrowia.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Usługi / Cennik (Services) -->
+  <section id="services" class="py-24 md:py-32 px-6 max-w-5xl mx-auto">
+    <div class="text-center mb-16 gs-fade-up">
+      <h2 class="text-4xl md:text-5xl font-serif text-ink mb-4">Nasze Usługi</h2>
+      <p class="text-ink/60 font-light">Przejrzyste ceny dla pań i panów.</p>
+    </div>
+
+    <div class="space-y-4 gs-stagger-services">
+      <!-- Usługa 1 -->
+      <div class="group bg-white p-8 rounded-[2rem] border border-ink/5 hover:shadow-soft transition-all duration-300 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div>
+          <h3 class="text-xl md:text-2xl font-serif text-ink mb-2">Strzyżenie damskie</h3>
+          <p class="text-sm text-ink/50 font-light max-w-md">Mycie z relaksacyjnym masażem, dobór odpowiedniej formy i modelowanie na szczotkę.</p>
+        </div>
+        <div class="flex items-center gap-8 w-full md:w-auto justify-between md:justify-end">
+          <div class="text-2xl font-serif text-ink">od 180 zł</div>
+          <a href="https://booksy.com/pl-pl/" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-surface flex items-center justify-center text-ink group-hover:bg-taupe group-hover:text-white transition-colors shrink-0">
+            <i data-lucide="plus" class="w-5 h-5"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Usługa 2 -->
+      <div class="group bg-white p-8 rounded-[2rem] border border-ink/5 hover:shadow-soft transition-all duration-300 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div>
+          <h3 class="text-xl md:text-2xl font-serif text-ink mb-2">Koloryzacja & Balayage</h3>
+          <p class="text-sm text-ink/50 font-light max-w-md">Wielowymiarowy kolor, ochrona wiązań włosa (Olaplex), tonowanie i strzyżenie końcówek.</p>
+        </div>
+        <div class="flex items-center gap-8 w-full md:w-auto justify-between md:justify-end">
+          <div class="text-2xl font-serif text-ink">od 350 zł</div>
+          <a href="https://booksy.com/pl-pl/" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-surface flex items-center justify-center text-ink group-hover:bg-taupe group-hover:text-white transition-colors shrink-0">
+            <i data-lucide="plus" class="w-5 h-5"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Usługa 3 -->
+      <div class="group bg-white p-8 rounded-[2rem] border border-ink/5 hover:shadow-soft transition-all duration-300 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div>
+          <h3 class="text-xl md:text-2xl font-serif text-ink mb-2">Strzyżenie męskie</h3>
+          <p class="text-sm text-ink/50 font-light max-w-md">Mycie, precyzyjne cięcie nożyczkami/maszynką, stylizacja oraz porady pielęgnacyjne.</p>
+        </div>
+        <div class="flex items-center gap-8 w-full md:w-auto justify-between md:justify-end">
+          <div class="text-2xl font-serif text-ink">120 zł</div>
+          <a href="https://booksy.com/pl-pl/" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-surface flex items-center justify-center text-ink group-hover:bg-taupe group-hover:text-white transition-colors shrink-0">
+            <i data-lucide="plus" class="w-5 h-5"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Usługa 4 (SPA) -->
+      <div class="group bg-taupe text-white p-8 rounded-[2rem] shadow-soft flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div>
+          <div class="inline-block px-3 py-1 bg-white/20 rounded-full text-[10px] uppercase tracking-widest mb-3">Pakiet SPA</div>
+          <h3 class="text-xl md:text-2xl font-serif mb-2">Rytuał Głęboka Regeneracja</h3>
+          <p class="text-sm text-white/80 font-light max-w-md">Sauna infrazonowa, ampułki odbudowujące, 15-minutowy masaż skóry głowy i stylizacja.</p>
+        </div>
+        <div class="flex items-center gap-8 w-full md:w-auto justify-between md:justify-end">
+          <div class="text-2xl font-serif">250 zł</div>
+          <a href="https://booksy.com/pl-pl/" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-taupe hover:bg-ink hover:text-white transition-colors shrink-0">
+            <i data-lucide="plus" class="w-5 h-5"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Estetyka (Aesthetics/Gallery z bezszwowym przejściem i Fancybox) -->
+  <section class="py-24 overflow-hidden border-t border-ink/5">
+    <div class="max-w-7xl mx-auto px-6 mb-12 flex justify-between items-end gs-fade-up">
+      <h2 class="text-4xl md:text-5xl font-serif text-ink">Nasza Praca</h2>
+      <p class="text-xs uppercase tracking-widest font-medium text-taupe hidden sm:block">Śledź nas na Instagramie</p>
+    </div>
+
+    <!-- Płynna, bezszwowa galeria zdjęć ze stałymi wymiarami zapobiegającymi zgniataniu -->
+    <div class="w-full flex overflow-hidden relative">
+      <div class="animate-marquee flex hover:[animation-play-state:paused]">
+
+        <!-- Zestaw 1 -->
+        <div class="flex gap-6 pr-6 shrink-0">
+          <a href="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=1200" data-fancybox="gallery" class="w-72 h-96 shrink-0 block overflow-hidden rounded-3xl shadow-sm group">
+            <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Wnętrze salonu">
+          </a>
+          <a href="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=1200" data-fancybox="gallery" class="w-72 h-96 shrink-0 block overflow-hidden rounded-3xl shadow-sm group">
+            <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Stylizacja w salonie">
+          </a>
+          <a href="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=crop&q=80&w=1200" data-fancybox="gallery" class="w-72 h-96 shrink-0 block overflow-hidden rounded-3xl shadow-sm group">
+            <img src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Proces strzyżenia">
+          </a>
+          <a href="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?auto=format&fit=crop&q=80&w=1200" data-fancybox="gallery" class="w-72 h-96 shrink-0 block overflow-hidden rounded-3xl shadow-sm group">
+            <img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Mycie włosów">
+          </a>
+          <a href="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?auto=format&fit=crop&q=80&w=1200" data-fancybox="gallery" class="w-72 h-96 shrink-0 block overflow-hidden rounded-3xl shadow-sm group">
+            <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Kosmetyki do włosów">
+          </a>
+        </div>
+
+        <!-- Zestaw 2 (Duplikat dla bezszwowości) -->
+        <div class="flex gap-6 pr-6 shrink-0">
+          <a href="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=1200" data-fancybox="gallery" class="w-72 h-96 shrink-0 block overflow-hidden rounded-3xl shadow-sm group">
+            <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Wnętrze salonu">
+          </a>
+          <a href="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=1200" data-fancybox="gallery" class="w-72 h-96 shrink-0 block overflow-hidden rounded-3xl shadow-sm group">
+            <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Stylizacja w salonie">
+          </a>
+          <a href="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=crop&q=80&w=1200" data-fancybox="gallery" class="w-72 h-96 shrink-0 block overflow-hidden rounded-3xl shadow-sm group">
+            <img src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Proces strzyżenia">
+          </a>
+          <a href="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?auto=format&fit=crop&q=80&w=1200" data-fancybox="gallery" class="w-72 h-96 shrink-0 block overflow-hidden rounded-3xl shadow-sm group">
+            <img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Mycie włosów">
+          </a>
+          <a href="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?auto=format&fit=crop&q=80&w=1200" data-fancybox="gallery" class="w-72 h-96 shrink-0 block overflow-hidden rounded-3xl shadow-sm group">
+            <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Kosmetyki do włosów">
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Kontakt i Booksy Integration -->
+  <section id="contact" class="py-24 md:py-32 px-6">
+    <div class="max-w-6xl mx-auto bg-surface rounded-[3rem] p-8 md:p-16 flex flex-col lg:flex-row gap-16 relative overflow-hidden">
+
+      <!-- Ozdobne tło -->
+      <div class="absolute -right-20 -top-20 w-64 h-64 bg-paper rounded-full blur-3xl opacity-50 pointer-events-none"></div>
+
+      <div class="flex-1 gs-fade-right">
+        <h2 class="text-4xl md:text-5xl font-serif text-ink mb-6">Czekamy na Ciebie.</h2>
+        <p class="text-ink/60 font-light mb-12 max-w-sm">Znajdujemy się w samym sercu Gdańska. Przyjdź na chwilę relaksu i wyjdź z perfekcyjną fryzurą.</p>
+
+        <div class="space-y-6">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm text-taupe"><i data-lucide="map-pin" class="w-4 h-4"></i></div>
+            <div>
+              <p class="text-sm text-ink/50 uppercase tracking-widest font-medium mb-1">Adres</p>
+              <p class="text-lg font-serif text-ink">ul. Piwna 12, Gdańsk</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm text-taupe"><i data-lucide="clock" class="w-4 h-4"></i></div>
+            <div>
+              <p class="text-sm text-ink/50 uppercase tracking-widest font-medium mb-1">Godziny otwarcia</p>
+              <p class="text-lg font-serif text-ink">Pon-Sob: 09:00 - 20:00<br/>Niedz: Zamknięte</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm text-taupe"><i data-lucide="phone" class="w-4 h-4"></i></div>
+            <div>
+              <p class="text-sm text-ink/50 uppercase tracking-widest font-medium mb-1">Telefon</p>
+              <p class="text-lg font-serif text-ink">+48 500 123 456</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel rezerwacji Booksy -->
+      <div class="flex-1 bg-white p-8 md:p-12 rounded-[2rem] shadow-soft gs-fade-left flex flex-col justify-center text-center relative z-10">
+        <div class="w-20 h-20 bg-surface rounded-full flex items-center justify-center mx-auto mb-6 text-taupe">
+          <i data-lucide="calendar-heart" class="w-10 h-10"></i>
+        </div>
+        <h3 class="text-3xl font-serif text-ink mb-4">Zaplanuj wizytę</h3>
+        <p class="text-ink/60 font-light mb-10">Dla Twojej wygody wszystkie rezerwacje obsługujemy poprzez platformę Booksy. Wybierz swój ulubiony zabieg w wolnej chwili.</p>
+
+        <a href="https://booksy.com/pl-pl/" target="_blank" rel="noopener noreferrer" class="w-full bg-ink text-white py-5 rounded-full text-sm font-medium uppercase tracking-widest hover:bg-taupe transition-colors inline-block shadow-soft">
+          Zarezerwuj przez Booksy
+        </a>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<!-- Stopka (Footer) -->
+<footer class="py-12 border-t border-ink/5 px-6 text-center md:text-left">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+    <div class="text-2xl font-serif font-semibold text-ink">AURA.</div>
+    <div class="flex gap-8 text-xs font-medium uppercase tracking-widest text-ink/50">
+      <a href="#" class="hover:text-taupe transition-colors">Instagram</a>
+      <a href="#" class="hover:text-taupe transition-colors">Facebook</a>
+    </div>
+    <p class="text-xs text-ink/40 font-light">&copy; 2026 AURA HAIR ATELIER. WSZELKIE PRAWA ZASTRZEŻONE.</p>
+  </div>
+</footer>
+
+<!-- Booksy Widget Integration -->
+<!-- 
+<script type="text/javascript" src="https://booksy.com/widget/code.js?id=TWOJE_ID&country=pl&lang=pl"></script>
+-->
+
+<!-- Skrypty: GSAP, ScrollTrigger, Lenis, Fancybox -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+
+<script>
+  // 1. Inicjalizacja ikon Lucide
+  lucide.createIcons();
+
+  // 2. Lenis Smooth Scroll
+  const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    direction: 'vertical',
+    smooth: true,
+  });
+
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+
+  // Integracja GSAP + Lenis
+  gsap.registerPlugin(ScrollTrigger);
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
+  gsap.ticker.lagSmoothing(0, 0);
+
+  // 3. Inicjalizacja Fancybox dla galerii
+  Fancybox.bind('[data-fancybox="gallery"]', {
+    Toolbar: {
+      display: {
+        left: ["infobar"],
+        middle: [],
+        right: ["close"],
+      },
+    },
+    Images: {
+      zoom: false,
+    },
+    animated: true,
+    showClass: "f-fadeInUp",
+    hideClass: "f-fadeOutDown",
+  });
+
+  // 4. Tło nagłówka podczas przewijania
+  const headerBg = document.getElementById('header-bg');
+  ScrollTrigger.create({
+    start: 'top -50',
+    onUpdate: (self) => {
+      if(self.direction === 1 || self.scroll() > 50) {
+        headerBg.classList.remove('opacity-0');
+      } else {
+        headerBg.classList.add('opacity-0');
+      }
+    }
+  });
+
+  // 5. Animacje GSAP
+  // Paralaksa obrazu w Hero
+  gsap.to('.gs-hero-img img', {
+    yPercent: 10,
+    ease: "none",
+    scrollTrigger: {
+      trigger: "main",
+      start: "top top",
+      end: "bottom top",
+      scrub: true
+    }
+  });
+
+  // Pojawianie się elementów z dołu
+  gsap.utils.toArray('.gs-fade-up').forEach(elem => {
+    gsap.fromTo(elem,
+            { y: 40, opacity: 0 },
+            { y: 0, opacity: 1, duration: 1, ease: "power3.out", scrollTrigger: { trigger: elem, start: "top 85%" } }
+    );
+  });
+
+  // Pojawianie się z prawej strony
+  gsap.utils.toArray('.gs-fade-right').forEach(elem => {
+    gsap.fromTo(elem,
+            { x: -40, opacity: 0 },
+            { x: 0, opacity: 1, duration: 1, ease: "power3.out", scrollTrigger: { trigger: elem, start: "top 85%" } }
+    );
+  });
+
+  // Pojawianie się z lewej strony
+  gsap.utils.toArray('.gs-fade-left').forEach(elem => {
+    gsap.fromTo(elem,
+            { x: 40, opacity: 0 },
+            { x: 0, opacity: 1, duration: 1, ease: "power3.out", scrollTrigger: { trigger: elem, start: "top 85%" } }
+    );
+  });
+
+  // Kaskadowe pojawianie się Cennika
+  gsap.fromTo('.gs-stagger-services > div',
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power3.out", scrollTrigger: { trigger: '#services', start: "top 85%" } }
+  );
+
+  // 6. Poprawione Menu Mobilne
+  const mobileBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const burgerIcon = document.getElementById('burger-icon');
+  const closeIcon = document.getElementById('close-icon');
+  let isMenuOpen = false;
+
+  const menuTl = gsap.timeline({ paused: true, reversed: true });
+  menuTl.to(mobileMenu, { display: 'flex', duration: 0 })
+          .to(mobileMenu, { opacity: 1, duration: 0.3, ease: "power2.inOut" })
+          .to('.mobile-link', { y: 0, opacity: 1, duration: 0.3, stagger: 0.1, ease: "power3.out" }, "-=0.1");
+
+  function toggleMenu() {
+    isMenuOpen = !isMenuOpen;
+    if (isMenuOpen) {
+      lenis.stop();
+      burgerIcon.classList.add('hidden');
+      closeIcon.classList.remove('hidden');
+      menuTl.play();
+    } else {
+      lenis.start();
+      burgerIcon.classList.remove('hidden');
+      closeIcon.classList.add('hidden');
+      menuTl.reverse();
+    }
+  }
+
+  mobileBtn.addEventListener('click', toggleMenu);
+
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      // Zezwól na normalne działanie dla linków zewnętrznych (jak Booksy)
+      if (link.getAttribute('target') === '_blank') return;
+
+      e.preventDefault();
+      if(isMenuOpen) toggleMenu();
+      const target = document.querySelector(link.getAttribute('href'));
+      if(target) setTimeout(() => lenis.scrollTo(target), 400);
+    });
+  });
+
+  // Nawigacja desktop (dla lokalnych kotwic)
+  document.querySelectorAll('nav a, header > a:last-of-type').forEach(link => {
+    link.addEventListener('click', (e) => {
+      if (link.getAttribute('target') === '_blank') return;
+
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if(target) lenis.scrollTo(target);
+    });
+  });
+</script>
+</body>
+</html>
